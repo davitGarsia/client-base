@@ -1,0 +1,95 @@
+{
+  "clients": [
+    {
+      "id": 1,
+      "clientNumber": 1,
+      "name": "Client 1",
+      "lastName": "Last Name 1",
+      "gender": "male",
+      "personalNumber": "1234567890",
+      "phone": "1234567890",
+      "officialAddress": {
+        "country": "Country 1",
+        "city": "City 1",
+        "street": "Street 1",
+        "houseNumber": "1",
+        "apartmentNumber": "1"
+      },
+      "factualAddress": {
+        "country": "Country 1",
+        "city": "City 1",
+        "street": "Street 1",
+        "houseNumber": "1",
+        "apartmentNumber": "1"
+      },
+      "photo": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 2,
+      "clientNumber": 2,
+      "name": "Client 2",
+      "lastName": "Last Name 2",
+      "gender": "female",
+      "personalNumber": "1234567890",
+      "phone": "1234567890",
+      "officialAddress": {
+        "country": "Country 2",
+        "city": "City 2",
+        "street": "Street 2",
+        "houseNumber": "2",
+        "apartmentNumber": "2"
+      },
+      "factualAddress": {
+        "country": "Country 2",
+        "city": "City 2",
+        "street": "Street 2",
+        "houseNumber": "2",
+        "apartmentNumber": "2"
+      },
+      "photo": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 3,
+      "clientNumber": 3,
+      "name": "Client 3",
+      "lastName": "Last Name 3",
+      "gender": "female",
+      "personalNumber": "1234567890",
+      "phone": "1234567890",
+      "officialAddress": {
+        "country": "Country 3",
+        "city": "City 3",
+        "street": "Street 3",
+        "houseNumber": "3",
+        "apartmentNumber": "3"
+      },
+      "factualAddress": {
+        "country": "Country 3",
+        "city": "City 3",
+        "street": "Street 3",
+        "houseNumber": "3",
+        "apartmentNumber": "3"
+      },
+      "photo": "https://via.placeholder.com/150"
+    }
+],
+  "accounts": [
+    {
+      "id": "1",
+      "accountNumber": 1,
+      "accountType": "debit",
+      "currency": "USD",
+      "accountStatus": "active"
+    },
+    {
+      "id": "2",
+      "accountNumber": 2,
+      "accountType": "credit",
+      "currency": "USD",
+      "accountStatus": "active"
+    }
+
+  ]
+}
+
+

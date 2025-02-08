@@ -1,11 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as ClientActions from './client.actions';
-import {Client} from '../../core/interfaces/client.interface';
-
-export interface ClientState {
-  clients: Client[];
-  error: any;
-}
+import {ClientState} from '../../core/interfaces/client.interface';
 
 export const initialState: ClientState = {
   clients: [],
@@ -14,6 +9,11 @@ export const initialState: ClientState = {
 
 export const clientReducer = createReducer(
   initialState,
+  on(ClientActions.loadClients, state => ({
+    ...state,
+    loading: true,
+    error: null  // Reset error when fetching
+  })),
   on(ClientActions.loadClientsSuccess, (state, { clients }) => ({
     ...state,
     clients,

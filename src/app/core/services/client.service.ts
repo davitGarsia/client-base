@@ -27,7 +27,7 @@ export class ClientService extends BaseService{
     return this.put(`clients/${client.id}`, client);
   }
 
-  deleteClient(id: string): Observable<any> {
+  deleteClient(id: number): Observable<any> {
     return this.delete(`clients/${id}`);
   }
 

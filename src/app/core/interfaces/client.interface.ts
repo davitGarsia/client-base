@@ -5,7 +5,7 @@ export interface Address {
 }
 
 export interface Client {
-  id?: string,
+  id?: number;
   clientNumber: number;
   name: string;
   lastName: string;
@@ -15,4 +15,9 @@ export interface Client {
   officialAddress: Address;
   factualAddress: Address;
   photo?: string | File;
+}
+
+export interface ClientState {
+  clients: Client[];
+  error: any;
 }

@@ -5,11 +5,15 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import {clientReducer} from './state/clients/client.reducer';
 import {ClientEffects} from './state/clients/client.effects';
+import {provideHttpClient} from '@angular/common/http';
+import {accountReducer} from './state/accounts/account.reducer';
+import {AccountEffects} from './state/accounts/account.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideStore({ clients: clientReducer}),
-    provideEffects([ClientEffects]),
+    provideHttpClient(),
+    provideStore({ clients: clientReducer, accounts: accountReducer }),
+    provideEffects([ClientEffects, AccountEffects]),
   ]
 };

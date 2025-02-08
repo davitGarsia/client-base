@@ -1,1 +1,7 @@
 <p>client-list works!</p>
+<ul>
+  <li *ngFor="let client of clients()">
+    {{ client.name }} - {{ client.lastName }}
+
+  </li>
+</ul>
