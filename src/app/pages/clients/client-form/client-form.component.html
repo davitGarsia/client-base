@@ -1,0 +1,36 @@
+<p>client-form works!</p>
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">Client Form</h1>
+  </div>
+  <div class="page-content">
+    <form [formGroup]="clientForm">
+      <div class="form-group">
+        <label for="client-number">კლიენტის ნომერი</label>
+        <input type="text" id="client-number" pattern="\d*" (input)="onIntInput($event, 'clientNumber')" formControlName="clientNumber" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="name">სახელი</label>
+        <input type="text" id="name" formControlName="name" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="last-name">გვარი</label>
+        <input type="text" id="last-name" formControlName="lastName" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="gender">სქესი</label>
+        <input type="text" id="gender" formControlName="gender" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="personal-number">პირადი ნომერი</label>
+        <input type="text" id="personal-number" formControlName="personalNumber" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="phone">ტელეფონი</label>
+        <input type="text" id="phone" formControlName="phone" class="form-control">
+      </div>
+
+    </form>
+    <button class="btn btn-primary" (click)="onSubmit()">შენახვა</button>
+</div>
+</div>
