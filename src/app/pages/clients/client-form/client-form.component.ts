@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {integerValidator} from '../../../shared/validators/integer-validator';
+import {georgianOrLatinValidator} from '../../../shared/validators/language-validator';
 
 @Component({
   selector: 'app-client-form',
@@ -18,25 +19,45 @@ export class ClientFormComponent implements OnInit {
   ngOnInit() {
     this.clientForm = new FormGroup({
       clientNumber: new FormControl(null, [Validators.required, integerValidator]),
-      name: new FormControl(),
-      lastName: new FormControl(null, Validators.required),
+      name: new FormControl(null,
+        [Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+          georgianOrLatinValidator()
+        ]),
+      lastName: new FormControl(null,
+        [Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+          georgianOrLatinValidator()
+        ]),
       gender: new FormControl(null, Validators.required),
-      personalNumber: new FormControl(null, Validators.required),
-      phone: new FormControl(),
-      officialAddress: new FormArray([
+      personalNumber: new FormControl(null,
+        [Validators.required,
+          Validators.minLength(11),
+          Validators.maxLength(11)
+        ]),
+      phone: new FormControl(null,
+        [Validators.required,
+          Validators.minLength(9),
+          Validators.maxLength(9)]),
+      officialAddress: new FormGroup({
+      country: new FormControl(null, [Validators.required]),
+      city: new FormControl(null, [Validators.required]),
+      address: new FormControl(null, [Validators.required])
+      }),
+      factualAddress:
         new FormGroup({
-          country: new FormControl(),
-          city: new FormControl(),
-          address: new FormControl()
-        })
-      ]),
-      factualAddress: new FormArray([
-        new FormGroup({
-          country: new FormControl(),
-          city: new FormControl(),
-          address: new FormControl()
-        })
-      ]),
+          country: new FormControl(null,
+            [Validators.required
+            ]),
+          city: new FormControl(null,
+            [Validators.required
+            ]),
+          address: new FormControl(null,
+            [Validators.required
+            ])
+        }),
       photo: new FormControl()
     });
   }
