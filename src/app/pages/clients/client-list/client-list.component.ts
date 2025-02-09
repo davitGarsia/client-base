@@ -41,7 +41,7 @@ export class ClientListComponent implements OnInit {
   ngOnInit(): void {
     this.filterForm = new FormGroup({
       clientNumber: new FormControl(''),
-      clientName: new FormControl(''),
+      name: new FormControl(''),
       gender: new FormControl(''),
       personalNumber: new FormControl(''),
       phone: new FormControl(''),
@@ -85,7 +85,7 @@ export class ClientListComponent implements OnInit {
     const queryParams = this.route.snapshot.queryParams;
     const filterValues = {
       clientNumber: queryParams['clientNumber'] || '',
-      clientName: queryParams['clientName'] || '',
+      name: queryParams['name'] || '',
       gender: queryParams['gender'] || '',
       personalNumber: queryParams['personalNumber'] || '',
       phone: queryParams['phone'] || '',

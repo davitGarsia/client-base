@@ -59,6 +59,26 @@
         "address": "Street 3"
       },
       "photo": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 4,
+      "clientNumber": 4,
+      "name": "davit",
+      "lastName": "Last Name 4",
+      "gender": "male",
+      "personalNumber": "1234567890",
+      "phone": "1234567890",
+      "legalAddress": {
+        "country": "Country 4",
+        "city": "City 4",
+        "address": "Street 4"
+      },
+      "factualAddress": {
+        "country": "Country 4",
+        "city": "City 4",
+        "address": "Street 4"
+      },
+      "photo": "https://via.placeholder.com/150"
     }
 ],
   "accounts": [

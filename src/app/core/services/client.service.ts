@@ -15,19 +15,10 @@ export class ClientService extends BaseService{
   }
 
   getClients(params?: any): Observable<any> {
-    // Convert the plain object to HttpParams
-    const queryParams = this.paramsService.createQueryParams(params || {});
-    console.log('queryParams', queryParams); // Should log as { clientNumber_like: 'ss', page_like: '1' }
-
-    // Convert queryParams to HttpParams
-    let httpParams = new HttpParams();
-    Object.keys(queryParams).forEach(key => {
-      httpParams = httpParams.append(key, queryParams[key]);
-    });
-
-    // Now pass the HttpParams in the request
-    return this.get('clients', { params: httpParams });
+    const httpParams = new HttpParams({ fromObject: params });
+    return this.get('clients', httpParams);
   }
+
 
 
   getClient(id: number): Observable<any> {
