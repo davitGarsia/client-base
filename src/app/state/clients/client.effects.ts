@@ -16,14 +16,15 @@ export class ClientEffects {
   loadClients$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientActions.loadClients),
-      mergeMap(() =>
-        this.clientService.getClients().pipe(
+      mergeMap(({params}) =>
+        this.clientService.getClients(params).pipe(
           map(clients => ClientActions.loadClientsSuccess({ clients })),
           catchError(error => of(ClientActions.loadClientsFailure({ error })))
         )
       )
     )
   );
+
 
   // createClient$ = createEffect(() =>
   //   this.actions$.pipe(

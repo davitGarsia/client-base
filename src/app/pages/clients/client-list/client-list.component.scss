@@ -1,0 +1,10 @@
+.btn-container {
+  display: flex;
+  gap: 10px;
+}
+
+/* Style for rows when hovered */
+.hover-row:hover {
+  background-color: #dad7d7; /* Highlight row */
+  cursor: pointer; /* Optional: Change cursor on hover */
+}

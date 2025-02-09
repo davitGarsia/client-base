@@ -8,19 +8,15 @@
       "gender": "male",
       "personalNumber": "1234567890",
       "phone": "1234567890",
-      "officialAddress": {
+      "legalAddress": {
         "country": "Country 1",
         "city": "City 1",
-        "street": "Street 1",
-        "houseNumber": "1",
-        "apartmentNumber": "1"
+        "address": "Street 1"
       },
       "factualAddress": {
         "country": "Country 1",
         "city": "City 1",
-        "street": "Street 1",
-        "houseNumber": "1",
-        "apartmentNumber": "1"
+        "address": "Street 1"
       },
       "photo": "https://via.placeholder.com/150"
     },
@@ -32,19 +28,15 @@
       "gender": "female",
       "personalNumber": "1234567890",
       "phone": "1234567890",
-      "officialAddress": {
+      "legalAddress": {
         "country": "Country 2",
         "city": "City 2",
-        "street": "Street 2",
-        "houseNumber": "2",
-        "apartmentNumber": "2"
+        "address": "Street 2"
       },
       "factualAddress": {
         "country": "Country 2",
         "city": "City 2",
-        "street": "Street 2",
-        "houseNumber": "2",
-        "apartmentNumber": "2"
+        "address": "Street 3"
       },
       "photo": "https://via.placeholder.com/150"
     },
@@ -56,19 +48,15 @@
       "gender": "female",
       "personalNumber": "1234567890",
       "phone": "1234567890",
-      "officialAddress": {
+      "legalAddress": {
         "country": "Country 3",
         "city": "City 3",
-        "street": "Street 3",
-        "houseNumber": "3",
-        "apartmentNumber": "3"
+        "address": "Street 3"
       },
       "factualAddress": {
         "country": "Country 3",
         "city": "City 3",
-        "street": "Street 3",
-        "houseNumber": "3",
-        "apartmentNumber": "3"
+        "address": "Street 3"
       },
       "photo": "https://via.placeholder.com/150"
     }

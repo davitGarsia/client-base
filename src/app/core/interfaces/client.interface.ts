@@ -12,7 +12,7 @@ export interface Client {
   gender: string;
   personalNumber: string;
   phone: string;
-  officialAddress: Address;
+  legalAddress: Address;
   factualAddress: Address;
   photo?: string | File;
 }

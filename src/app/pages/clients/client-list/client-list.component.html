@@ -1,12 +1,68 @@
 <p>client-list works!</p>
-<ul>
-  <li *ngFor="let client of clients()">
-    {{ client.name }} - {{ client.lastName }}
 
-  </li>
+<div class="container">
+  <input type="text" [formControl]="search" placeholder="Search..." class="p-mb-3">
 
-  <div class="card flex justify-center">
-    <p-button label="Check" />
-  </div>
-
-</ul>
+  <form [formGroup]="filterForm">
+    <p-table [value]="clients()" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template #header>
+        <tr>
+          <th>კლიენტის ნომერი</th>
+          <th>სახელი</th>
+          <th>სქესი</th>
+          <th>პირადი ნომერი</th>
+          <th>მობილური</th>
+          <th>იურიდიული მისამართი</th>
+          <th>ფაქტობრივი მისამართი</th>
+          <th>მოქმედებები</th> <!-- Actions Column -->
+        </tr>
+        <tr>
+          <th>
+            <input type="text" formControlName="clientNumber" class="p-inputtext p-component p-column-filter">
+          </th>
+          <th>
+            <input type="text" formControlName="clientName" class="p-inputtext p-component p-column-filter">
+          </th>
+          <th>
+            <select type="text" formControlName="gender" class="p-inputtext p-component p-column-filter">
+              <option value="male">მამრობითი</option>
+              <option value="female">მდედრობითი</option>
+            </select>
+          </th>
+          <th>
+            <input type="text" formControlName="personalNumber" class="p-inputtext p-component p-column-filter">
+          </th>
+          <th>
+            <input type="text" formControlName="phone" class="p-inputtext p-component p-column-filter">
+          </th>
+          <th>
+            <input type="text" formControlName="legalAddress" class="p-inputtext p-component p-column-filter">
+          </th>
+          <th>
+            <input type="text" formControlName="actualAddress" class="p-inputtext p-component p-column-filter">
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-client>
+        <tr [ngClass]="{'hover-row': true}" (click)="onRowSelect(client.id)" pTooltip="კლიენტის დეტალურად ნახვა" tooltipPosition="top">
+          <td>{{ client.clientNumber }}</td>
+          <td>{{ client.name }} {{client.lastName}}</td>
+          <td>{{client.gender}}</td>
+          <td>{{ client.personalNumber }}</td>
+          <td>{{ client.phone }}</td>
+          <td>{{ client.legalAddress.country }} {{ client.legalAddress.city }} {{ client.legalAddress.address }}</td>
+          <td>{{ client.factualAddress.country }} {{ client.factualAddress.city }} {{ client.factualAddress.address }}</td>
+          <td class="btn-container">
+            <a href="" [routerLink]="['add', client.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
+              <i class="pi pi-pencil"></i>
+            </a>
+            <button pButton type="button" class="p-button-rounded p-button-danger"
+                    (click)="onDeleteClient(client)">
+              <i class="pi pi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </form>
+</div>

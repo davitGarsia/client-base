@@ -10,6 +10,7 @@ import {accountReducer} from './state/accounts/account.reducer';
 import {AccountEffects} from './state/accounts/account.effects';
 import {providePrimeNG} from 'primeng/config';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import LaraLightBlue from '@primeng/themes/lara';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -19,9 +20,10 @@ export const appConfig: ApplicationConfig = {
     provideEffects([ClientEffects, AccountEffects]),
     provideAnimationsAsync(),
     providePrimeNG({
-      // theme: {
-      //   preset: Luna
-      // }
+      theme: {
+       preset: LaraLightBlue,
+        options: {darkModeSelector: '.app-dark'}
+}
     })
   ]
 };

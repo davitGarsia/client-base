@@ -4,6 +4,7 @@ import {Client} from '../../core/interfaces/client.interface';
 
  export const loadClients = createAction(
   '[Client] Load Clients',
+  props<{ params: any }>()
 );
 
  export const loadClientsSuccess = createAction(
