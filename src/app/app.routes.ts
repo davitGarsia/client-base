@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import {resolve} from '@angular/compiler-cli';
+import {clientsResolver} from './core/resolvers/clients.resolver';
 
 export const routes: Routes = [
   {
@@ -8,7 +10,8 @@ export const routes: Routes = [
   },
   {
     path: 'clients',
-    loadComponent: () => import('./pages/clients/client-list/client-list.component').then(m => m.ClientListComponent)
+    loadComponent: () => import('./pages/clients/client-list/client-list.component').then(m => m.ClientListComponent),
+    resolve: { clients: clientsResolver }
   },
   {
     path: 'clients/add',

@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {integerValidator} from '../../../shared/validators/integer-validator';
 import {georgianOrLatinValidator} from '../../../shared/validators/language-validator';
+import {UniqueClientNumberValidator} from '../../../shared/validators/client-number-validator';
+
 
 @Component({
   selector: 'app-client-form',
@@ -13,17 +15,27 @@ import {georgianOrLatinValidator} from '../../../shared/validators/language-vali
 })
 export class ClientFormComponent implements OnInit {
   clientForm!: FormGroup;
+  photoSignal = signal<string>('');
+  uniqueClientNumberValidator = inject(UniqueClientNumberValidator);
 
   constructor() {}
 
   ngOnInit() {
     this.clientForm = new FormGroup({
-      clientNumber: new FormControl(null, [Validators.required, integerValidator]),
+      clientNumber: new FormControl(
+        null,
+        {
+          validators: [Validators.required, integerValidator],
+          asyncValidators: [this.uniqueClientNumberValidator.validate.bind(this.uniqueClientNumberValidator)],
+          //updateOn: 'blur'
+        }
+      ),
       name: new FormControl(null,
         [Validators.required,
           Validators.minLength(2),
           Validators.maxLength(50),
-          georgianOrLatinValidator()
+          georgianOrLatinValidator(),
+
         ]),
       lastName: new FormControl(null,
         [Validators.required,
@@ -60,6 +72,8 @@ export class ClientFormComponent implements OnInit {
         }),
       photo: new FormControl()
     });
+
+
   }
 
   onIntInput(event: Event, controlName: string): void {
@@ -69,8 +83,29 @@ export class ClientFormComponent implements OnInit {
     this.clientForm.get(controlName)?.setValue(sanitizedValue);
   }
 
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.photoSignal.set(reader.result as string);  // Update the signal with base64 data
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removePhoto() {
+    this.photoSignal.set('');
+  }
+
+
+
   onSubmit() {
     console.log(this.clientForm);
+    this.clientForm.markAllAsTouched();
+    if (this.clientForm.invalid) {
+      console.log("Form has errors:", this.clientForm.errors);
+    }
   }
 
 }

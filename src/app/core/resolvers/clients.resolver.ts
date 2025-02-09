@@ -8,7 +8,7 @@ import { filter, map, take } from 'rxjs';
 export const clientsResolver: ResolveFn<boolean> = (route, state) => {
   const store: Store = inject(Store);
   const params = route.queryParams;
-  store.dispatch(loadClients({ params }));
+  store.dispatch(loadClients());
 
   return store.select(selectClients).pipe(
     filter(clients => clients !== undefined),

@@ -94,6 +94,15 @@
         </div>
       </div>
 
+      <div class="img-upload">
+        <label for="img">სურათი</label>
+        <input type="file" id="img" formControlName="photo" (change)="onFileChange($event)" />
+        @if (photoSignal()) {
+          <img [src]="photoSignal()" alt="client photo" />
+        }
+        <button (click)="removePhoto()">წაშლა</button>
+      </div>
+
     </form>
     <button class="btn btn-primary" (click)="onSubmit()">შენახვა</button>
 </div>

@@ -30,6 +30,10 @@ export class ClientService extends BaseService{
   deleteClient(id: number): Observable<any> {
     return this.delete(`clients/${id}`);
   }
+  //
+  // checkClientNumberExists(clientNumber: string): Observable<any> {
+  //   return this.get('clients');
+  // }
 
 
 }

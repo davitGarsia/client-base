@@ -6,11 +6,13 @@ import {Store} from '@ngrx/store';
 
 import {Client} from '../../../core/interfaces/client.interface';
 import {NgForOf} from '@angular/common';
+import {Button} from 'primeng/button';
 
 @Component({
   selector: 'app-client-list',
   imports: [
-    NgForOf
+    NgForOf,
+    Button
   ],
   templateUrl: './client-list.component.html',
   styleUrl: './client-list.component.scss'
@@ -19,7 +21,7 @@ export class ClientListComponent implements OnInit{
   private store = inject(Store);
 
   ngOnInit() {
-    this.loadClients();
+    //this.loadClients();
   }
 
   clients = toSignal(this.store.select(selectClients));
