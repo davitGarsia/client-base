@@ -1,10 +1,12 @@
-<p>client-list works!</p>
-
 <div class="container">
-  <input type="text" [formControl]="search" placeholder="Search..." class="p-mb-3">
+  <input type="text" [formControl]="search" placeholder="Search..." class="input input--search">
 
-  <form [formGroup]="filterForm">
-    <p-table [value]="clients()" [tableStyle]="{ 'min-width': '50rem' }">
+  <form class="form" [formGroup]="filterForm">
+    <p-table [value]="clients()" [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto'}" [paginator]="true" [rows]="perPage()"
+             [rowsPerPageOptions]="[5, 10, 20]" [lazy]="true" (onPage)="pageChange($event)" (rowsChange)="onRowChange($event)" [showCurrentPageReport]="true"
+             [first]="(page() - 1) * perPage()"
+             [totalRecords]="totalRecords()"
+             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" >
       <ng-template #header>
         <tr>
           <th>კლიენტის ნომერი</th>
@@ -18,28 +20,28 @@
         </tr>
         <tr>
           <th>
-            <input type="text" formControlName="clientNumber" class="p-inputtext p-component p-column-filter">
+            <input type="text" formControlName="clientNumber" class="input">
           </th>
           <th>
-            <input type="text" formControlName="name" class="p-inputtext p-component p-column-filter">
+            <input type="text" formControlName="name" class="input">
           </th>
           <th>
-            <select type="text" formControlName="gender" class="p-inputtext p-component p-column-filter">
+            <select type="text" formControlName="gender" class="input">
               <option value="male">მამრობითი</option>
               <option value="female">მდედრობითი</option>
             </select>
           </th>
           <th>
-            <input type="text" formControlName="personalNumber" class="p-inputtext p-component p-column-filter">
+            <input type="text" formControlName="personalNumber" class="input">
           </th>
           <th>
-            <input type="text" formControlName="phone" class="p-inputtext p-component p-column-filter">
+            <input type="text" formControlName="phone" class="input">
           </th>
           <th>
-            <input type="text" formControlName="legalAddress" class="p-inputtext p-component p-column-filter">
+            <input type="text" formControlName="legalAddress" class="input">
           </th>
           <th>
-            <input type="text" formControlName="actualAddress" class="p-inputtext p-component p-column-filter">
+            <input type="text" formControlName="actualAddress" class="input">
           </th>
         </tr>
       </ng-template>
@@ -53,11 +55,11 @@
           <td>{{ client.legalAddress.country }} {{ client.legalAddress.city }} {{ client.legalAddress.address }}</td>
           <td>{{ client.factualAddress.country }} {{ client.factualAddress.city }} {{ client.factualAddress.address }}</td>
           <td class="btn-container">
-            <a href="" [routerLink]="['add', client.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
+            <a (click)="$event.stopPropagation()" [routerLink]="['add', client.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
               <i class="pi pi-pencil"></i>
             </a>
             <button pButton type="button" class="p-button-rounded p-button-danger"
-                    (click)="onDeleteClient(client)">
+                    (click)="onDeleteClient($event, client)">
               <i class="pi pi-trash"></i>
             </button>
           </td>

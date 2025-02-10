@@ -99,7 +99,66 @@
         "address": "Street 5"
       },
       "photo": "https://via.placeholder.com/150"
-    }
+    },
+    {
+      "id": 6,
+      "clientNumber": 6,
+      "name": "davit",
+      "lastName": "Last Name 6",
+      "gender": "male",
+      "personalNumber": "1234567890",
+      "phone": "1234567890",
+      "legalAddress": {
+        "country": "Country 6",
+        "city": "City 6",
+        "address": "Street 6"
+      },
+      "factualAddress": {
+        "country": "Country 6",
+        "city": "City 6",
+        "address": "Street 6"
+      },
+      "photo": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 7,
+      "clientNumber": 7,
+      "name": "klara",
+      "lastName": "Last Name 7",
+      "gender": "female",
+      "personalNumber": "1234567890",
+      "phone": "1234567890",
+      "legalAddress": {
+        "country": "Country 7",
+        "city": "City 7",
+        "address": "Street 7"
+      },
+      "factualAddress": {
+        "country": "Country 7",
+        "city": "City 7",
+        "address": "Street 7"
+      },
+      "photo": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 8,
+      "clientNumber": 8,
+      "name": "klara",
+      "lastName": "Last Name 8",
+      "gender": "female",
+      "personalNumber": "1234567890",
+      "phone": "1234567890",
+      "legalAddress": {
+        "country": "Country 8",
+        "city": "City 8",
+        "address": "Street 8"
+      },
+      "factualAddress": {
+        "country": "Country 8",
+        "city": "City 8",
+        "address": "Street 8"
+      },
+      "photo": "https://via.placeholder.com/150"
 ],
   "accounts": [
     {

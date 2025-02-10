@@ -36,9 +36,10 @@ export class ClientListComponent implements OnInit {
   searchTerm = signal(this.route.snapshot.queryParams['search'] || '');
   clients = toSignal(this.store.select(selectClients), { initialValue: [] });
 
-  sortField: string = this.route.snapshot.queryParams['_sort'] || 'lastName';
-  sortOrder: string = this.route.snapshot.queryParams['_order'] || 'asc';
-  perPage: number = Number(this.route.snapshot.queryParams['_per_page'] || 5);
+  sortField = signal(this.route.snapshot.queryParams['_sort'] || 'lastName');
+  sortOrder = signal(this.route.snapshot.queryParams['_order'] || 'asc');
+  perPage = signal(Number(this.route.snapshot.queryParams['_per_page'] || 5));
+  totalRecords = signal(8);
 
   filterForm!: FormGroup;
 
@@ -62,7 +63,6 @@ export class ClientListComponent implements OnInit {
     this.search.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        // If filterForm has values, clear them when search is used
         if (this.isFilterFormNotEmpty()) {
           this.filterForm.reset();
         }
@@ -72,7 +72,6 @@ export class ClientListComponent implements OnInit {
     this.filterForm.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
-        // If using filters, clear the search input
         if (this.isFilterFormNotEmpty()) {
           console.log('Filter value changed:', value);
           this.search.setValue('', { emitEvent: false });
@@ -102,16 +101,16 @@ export class ClientListComponent implements OnInit {
     this.filterForm.patchValue(filterValues);
 
     if (queryParams['_sort']) {
-      this.sortField = queryParams['_sort'];
+      this.sortField.set(queryParams['_sort']);
     }
     if (queryParams['_order']) {
-      this.sortOrder = queryParams['_order'];
+      this.sortOrder.set(queryParams['_order']);
     }
     if (queryParams['_page']) {
       this.page.set(Number(queryParams['_page']));
     }
     if (queryParams['_per_page']) {
-      this.perPage = Number(queryParams['_per_page']);
+      this.perPage.set(Number(queryParams['_per_page']));
     }
   }
 
@@ -130,45 +129,51 @@ export class ClientListComponent implements OnInit {
       params = { ...filterParams };
     }
 
-    params._page = this.page();
-    params._per_page = this.perPage;
-    params._sort = this.sortField;
-    params._order = this.sortOrder;
+    // Ensure signals are converted to primitive values
+    params._page = this.page();        // Ensure number
+    params._per_page = this.perPage(); // Ensure number
+    params._sort = this.sortField();   // Ensure string
+    params._order = this.sortOrder();  // Ensure string
 
     this.store.dispatch(loadClients({ params }));
 
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: params,
+      queryParams: { ...params }, // Ensure all values are primitives
     });
   }
 
-  nextPage(): void {
-    this.page.set(this.page() + 1);
+
+  pageChange(event: any) {
+    const firstItemIndex = event.first;
+    const rowsPerPage = event.rows;
+    const currentPage = Math.floor(firstItemIndex / rowsPerPage) + 1;
+
+    this.page.set(currentPage);
     this.loadClients();
   }
 
-  prevPage(): void {
-    if (this.page() > 1) {
-      this.page.set(this.page() - 1);
-      this.loadClients();
-    }
+  onRowChange(event: any): void {
+    console.log(event)
+    this.perPage.set(event);
+    this.loadClients();
   }
 
   onRowSelect(id: string): void {
     this.router.navigate(['clients', 'detailed', id]);
   }
 
-  onDeleteClient(client: Client): void {
+  onDeleteClient(event: any, client: Client): void {
+    event.stopPropagation();
 
   }
 
   onSort(field: string): void {
-    if (this.sortField === field) {
-      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    if (this.sortField() === field) {
+      this.sortOrder.set(this.sortOrder() === 'asc' ? 'desc' : 'asc');
     } else {
-      this.sortField = field;
-      this.sortOrder = 'asc';
+      this.sortField.set(field);
+      this.sortOrder.set('asc');
     }
     this.loadClients();
   }

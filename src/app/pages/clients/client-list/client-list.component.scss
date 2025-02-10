@@ -8,3 +8,26 @@
   background-color: #dad7d7; /* Highlight row */
   cursor: pointer; /* Optional: Change cursor on hover */
 }
+
+
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 10px 10px;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  &:focus {
+    border: 1px solid #8d8c8c;
+  }
+
+  &--search {
+    width: 90%;
+    height: 50px;
+    display: flex;
+    margin: 5vh auto;
+  }
+}
+
+
