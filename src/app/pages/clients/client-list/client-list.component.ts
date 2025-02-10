@@ -32,9 +32,13 @@ export class ClientListComponent implements OnInit {
 
   search = new FormControl('');
 
-  page = signal(Number(this.route.snapshot.queryParams['page'] || 1));
+  page = signal(Number(this.route.snapshot.queryParams['_page'] || 1));
   searchTerm = signal(this.route.snapshot.queryParams['search'] || '');
   clients = toSignal(this.store.select(selectClients), { initialValue: [] });
+
+  sortField: string = this.route.snapshot.queryParams['_sort'] || 'lastName';
+  sortOrder: string = this.route.snapshot.queryParams['_order'] || 'asc';
+  perPage: number = Number(this.route.snapshot.queryParams['_per_page'] || 5);
 
   filterForm!: FormGroup;
 
@@ -58,6 +62,7 @@ export class ClientListComponent implements OnInit {
     this.search.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
+        // If filterForm has values, clear them when search is used
         if (this.isFilterFormNotEmpty()) {
           this.filterForm.reset();
         }
@@ -67,18 +72,20 @@ export class ClientListComponent implements OnInit {
     this.filterForm.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
-
+        // If using filters, clear the search input
         if (this.isFilterFormNotEmpty()) {
-          console.log('value', value);
-          this.search.setValue('', {emitEvent: false});
-      }
+          console.log('Filter value changed:', value);
+          this.search.setValue('', { emitEvent: false });
+        }
         this.loadClients();
       });
   }
 
   private isFilterFormNotEmpty(): boolean {
     const filterValues = this.filterForm.value;
-    return Object.values(filterValues).some(val => val && val.toString().trim() !== '');
+    return Object.values(filterValues).some(
+      (val) => val && val.toString().trim() !== ''
+    );
   }
 
   populateFormFromQueryParams(): void {
@@ -93,13 +100,26 @@ export class ClientListComponent implements OnInit {
       actualAddress: queryParams['actualAddress'] || '',
     };
     this.filterForm.patchValue(filterValues);
+
+    if (queryParams['_sort']) {
+      this.sortField = queryParams['_sort'];
+    }
+    if (queryParams['_order']) {
+      this.sortOrder = queryParams['_order'];
+    }
+    if (queryParams['_page']) {
+      this.page.set(Number(queryParams['_page']));
+    }
+    if (queryParams['_per_page']) {
+      this.perPage = Number(queryParams['_per_page']);
+    }
   }
 
   loadClients(): void {
-    let params: any = { page: this.page() };
+    let params: any = {};
 
     if (this.search.value && this.search.value.trim() !== '') {
-      params = { search: this.search.value };
+      params.search = this.search.value;
     } else {
       const filterParams = Object.entries(this.filterForm.value).reduce((acc, [key, value]) => {
         if (value && value.toString().trim() !== '') {
@@ -107,8 +127,13 @@ export class ClientListComponent implements OnInit {
         }
         return acc;
       }, {} as any);
-      params = { ...filterParams, page: this.page() };
+      params = { ...filterParams };
     }
+
+    params._page = this.page();
+    params._per_page = this.perPage;
+    params._sort = this.sortField;
+    params._order = this.sortOrder;
 
     this.store.dispatch(loadClients({ params }));
 
@@ -134,8 +159,18 @@ export class ClientListComponent implements OnInit {
     this.router.navigate(['clients', 'detailed', id]);
   }
 
-
   onDeleteClient(client: Client): void {
+    // Implement deletion logic here
+  }
 
+  onSort(field: string): void {
+    if (this.sortField === field) {
+      // Toggle sort order if the same field is selected again
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortOrder = 'asc';
+    }
+    this.loadClients();
   }
 }

@@ -16,9 +16,12 @@ export class ClientEffects {
   loadClients$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientActions.loadClients),
-      mergeMap(({params}) =>
+      mergeMap(({ params }) =>
         this.clientService.getClients(params).pipe(
-          map(clients => ClientActions.loadClientsSuccess({ clients })),
+          map(response => {
+            const clients = response?.data ?? response; // If response has 'data', extract it; otherwise, use response directly
+            return ClientActions.loadClientsSuccess({ clients });
+          }),
           catchError(error => of(ClientActions.loadClientsFailure({ error })))
         )
       )

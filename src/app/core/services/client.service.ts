@@ -19,8 +19,6 @@ export class ClientService extends BaseService{
     return this.get('clients', httpParams);
   }
 
-
-
   getClient(id: number): Observable<any> {
     return this.get(`clients/${id}`);
   }

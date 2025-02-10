@@ -7,7 +7,7 @@
       "lastName": "Last Name 1",
       "gender": "male",
       "personalNumber": "1234567890",
-      "phone": "1234567890",
+      "phone": "11111111",
       "legalAddress": {
         "country": "Country 1",
         "city": "City 1",
@@ -26,8 +26,8 @@
       "name": "Client 2",
       "lastName": "Last Name 2",
       "gender": "female",
-      "personalNumber": "1234567890",
-      "phone": "1234567890",
+      "personalNumber": "555555555",
+      "phone": "777888899",
       "legalAddress": {
         "country": "Country 2",
         "city": "City 2",
@@ -46,8 +46,8 @@
       "name": "Client 3",
       "lastName": "Last Name 3",
       "gender": "female",
-      "personalNumber": "1234567890",
-      "phone": "1234567890",
+      "personalNumber": "889154788",
+      "phone": "101257999",
       "legalAddress": {
         "country": "Country 3",
         "city": "City 3",
@@ -66,8 +66,8 @@
       "name": "davit",
       "lastName": "Last Name 4",
       "gender": "male",
-      "personalNumber": "1234567890",
-      "phone": "1234567890",
+      "personalNumber": "888555669",
+      "phone": "1234410001222",
       "legalAddress": {
         "country": "Country 4",
         "city": "City 4",
@@ -77,6 +77,26 @@
         "country": "Country 4",
         "city": "City 4",
         "address": "Street 4"
+      },
+      "photo": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 5,
+      "clientNumber": 5,
+      "name": "davit",
+      "lastName": "garsia",
+      "gender": "male",
+      "personalNumber": "8965145140",
+      "phone": "123489558456690",
+      "legalAddress": {
+        "country": "Country 5",
+        "city": "City 5",
+        "address": "Street 5"
+      },
+      "factualAddress": {
+        "country": "Country 5",
+        "city": "City 5",
+        "address": "Street 5"
       },
       "photo": "https://via.placeholder.com/150"
     }
