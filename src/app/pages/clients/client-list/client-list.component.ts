@@ -160,12 +160,11 @@ export class ClientListComponent implements OnInit {
   }
 
   onDeleteClient(client: Client): void {
-    // Implement deletion logic here
+
   }
 
   onSort(field: string): void {
     if (this.sortField === field) {
-      // Toggle sort order if the same field is selected again
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     } else {
       this.sortField = field;
