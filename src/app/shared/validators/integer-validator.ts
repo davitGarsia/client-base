@@ -4,7 +4,7 @@ export function integerValidator(control: AbstractControl): ValidationErrors | n
   const value = control.value;
 
   if (value && !/^\d+$/.test(value.toString())) {
-    return { nonInteger: 'The value must be a valid integer.' };
+    return { nonInteger: true };
   }
 
   return null;

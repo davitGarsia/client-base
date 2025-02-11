@@ -3,6 +3,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {integerValidator} from '../../../shared/validators/integer-validator';
 import {georgianOrLatinValidator} from '../../../shared/validators/language-validator';
 import {UniqueClientNumberValidator} from '../../../shared/validators/client-number-validator';
+import {startsWithFiveValidator} from '../../../shared/validators/phone-number-validator';
 
 
 @Component({
@@ -52,7 +53,10 @@ export class ClientFormComponent implements OnInit {
       phone: new FormControl(null,
         [Validators.required,
           Validators.minLength(9),
-          Validators.maxLength(9)]),
+          Validators.maxLength(9),
+          startsWithFiveValidator(),
+          integerValidator]),
+
       officialAddress: new FormGroup({
       country: new FormControl(null, [Validators.required]),
       city: new FormControl(null, [Validators.required]),
