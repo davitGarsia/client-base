@@ -4,21 +4,29 @@ import {integerValidator} from '../../../shared/validators/integer-validator';
 import {georgianOrLatinValidator} from '../../../shared/validators/language-validator';
 import {UniqueClientNumberValidator} from '../../../shared/validators/client-number-validator';
 import {startsWithFiveValidator} from '../../../shared/validators/phone-number-validator';
-
+import {RouterLink} from '@angular/router';
+import {Tooltip} from 'primeng/tooltip';
+import {Store} from '@ngrx/store';
+import * as ClientActions from '../../../state/clients/client.actions';
+import {RestrictSymbolsService} from '../../../shared/utils/restrict-symbols.service';
 
 @Component({
   selector: 'app-client-form',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink,
+    Tooltip
   ],
   templateUrl: './client-form.component.html',
   styleUrl: './client-form.component.scss'
 })
 export class ClientFormComponent implements OnInit {
+  readonly store = inject(Store);
   clientForm!: FormGroup;
   photoSignal = signal<string>('');
+  imageAsBase64 = signal<string>('');
   uniqueClientNumberValidator = inject(UniqueClientNumberValidator);
-
+  restrictSymbolsService: RestrictSymbolsService = inject(RestrictSymbolsService);
   constructor() {}
 
   ngOnInit() {
@@ -74,16 +82,14 @@ export class ClientFormComponent implements OnInit {
             [Validators.required
             ])
         }),
-      photo: new FormControl()
+      photo: new FormControl(null, Validators.required)
     });
 
 
   }
 
   onIntInput(event: Event, controlName: string): void {
-    const inputElement = event.target as HTMLInputElement;
-    const sanitizedValue = inputElement.value.replace(/[^0-9]/g, '');
-    inputElement.value = sanitizedValue;
+    const sanitizedValue : string = this.restrictSymbolsService.sanitizeOnInput(event, controlName);
     this.clientForm.get(controlName)?.setValue(sanitizedValue);
   }
 
@@ -92,6 +98,7 @@ export class ClientFormComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
+        this.imageAsBase64.set(reader.result as string);  // Update the signal with base64 data
         this.photoSignal.set(reader.result as string);  // Update the signal with base64 data
       };
       reader.readAsDataURL(file);
@@ -100,16 +107,26 @@ export class ClientFormComponent implements OnInit {
 
   removePhoto() {
     this.photoSignal.set('');
+    this.clientForm.get('photo')?.setValue(null);
+    this.imageAsBase64.set('');
   }
 
 
 
   onSubmit() {
-    console.log(this.clientForm);
     this.clientForm.markAllAsTouched();
+    console.log(this.clientForm.value);
+    const body = {...this.clientForm.value};
+    body.photo = this.imageAsBase64();
+    console.log(body)
     if (this.clientForm.invalid) {
       console.log("Form has errors:", this.clientForm.errors);
     }
+
+    this.store.dispatch(ClientActions.createClient({client: body}));
+
+
+
   }
 
 }

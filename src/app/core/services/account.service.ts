@@ -14,5 +14,13 @@ export class AccountService extends BaseService {
     return this.get('accounts');
   }
 
+  addAccount(account: any) {
+    return this.post('accounts', account);
+  }
+
+  closeAccount(accountId: string) {
+    return this.delete(`accounts/${accountId}`);
+  }
+
 
 }

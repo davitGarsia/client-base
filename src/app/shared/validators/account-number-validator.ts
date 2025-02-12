@@ -18,7 +18,7 @@ export class UniqueAccountNumberValidator implements AsyncValidator {
       switchMap(value => this.accountService.getAccounts().pipe(
         map((accounts: any) =>
           accounts.some((account: any) => account.accountNumber === value)
-            ? { clientNumberTaken: true }
+            ? { accountNumberTaken: true }
             : null
         ),
         catchError(() => of(null))

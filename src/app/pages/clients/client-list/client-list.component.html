@@ -9,14 +9,14 @@
              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" >
       <ng-template #header>
         <tr>
-          <th>კლიენტის ნომერი</th>
-          <th>სახელი</th>
-          <th>სქესი</th>
-          <th>პირადი ნომერი</th>
-          <th>მობილური</th>
-          <th>იურიდიული მისამართი</th>
-          <th>ფაქტობრივი მისამართი</th>
-          <th>მოქმედებები</th> <!-- Actions Column -->
+          <th id="client-number" class="table-header">კლიენტის ნომერი</th>
+          <th id="client-name" class="table-header">სახელი</th>
+          <th id="client-gender" class="table-header">სქესი</th>
+          <th id="personal-number" class="table-header">პირადი ნომერი</th>
+          <th id="client-phone" class="table-header">მობილური</th>
+          <th id="legal-address" class="table-header">იურიდიული მისამართი</th>
+          <th id="factual-address" class="table-header">ფაქტობრივი მისამართი</th>
+          <th id="actions" class="table-header">მოქმედებები</th> <!-- Actions Column -->
         </tr>
         <tr>
           <th>
@@ -46,16 +46,16 @@
         </tr>
       </ng-template>
       <ng-template #body let-client>
-        <tr [ngClass]="{'hover-row': true}" (click)="onRowSelect(client.id)" pTooltip="კლიენტის დეტალურად ნახვა" tooltipPosition="top">
-          <td>{{ client.clientNumber }}</td>
-          <td>{{ client.name }} {{client.lastName}}</td>
-          <td>{{client.gender}}</td>
-          <td>{{ client.personalNumber }}</td>
-          <td>{{ client.phone }}</td>
-          <td>{{ client.legalAddress.country }} {{ client.legalAddress.city }} {{ client.legalAddress.address }}</td>
-          <td>{{ client.factualAddress.country }} {{ client.factualAddress.city }} {{ client.factualAddress.address }}</td>
+        <tr [ngClass]="{'hover-row': true}" (click)="onRowSelect(client?.id)" pTooltip="კლიენტის დეტალურად ნახვა" tooltipPosition="top">
+          <td class="table-data">{{ client?.clientNumber }}</td>
+          <td class="table-data">{{ client?.name }} {{client?.lastName}}</td>
+          <td class="table-data">{{client?.gender}}</td>
+          <td class="table-data">{{ client?.personalNumber }}</td>
+          <td class="table-data">{{ client?.phone }}</td>
+          <td class="table-data">{{ client?.legalAddress?.country }} {{ client?.legalAddress?.city }} {{ client?.legalAddress?.address }}</td>
+          <td class="table-data">{{ client?.factualAddress.country }} {{ client?.factualAddress?.city }} {{ client?.factualAddress?.address }}</td>
           <td class="btn-container">
-            <a (click)="$event.stopPropagation()" [routerLink]="['add', client.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
+            <a (click)="$event.stopPropagation()" [routerLink]="['add', client?.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
               <i class="pi pi-pencil"></i>
             </a>
             <button pButton type="button" class="p-button-rounded p-button-danger"

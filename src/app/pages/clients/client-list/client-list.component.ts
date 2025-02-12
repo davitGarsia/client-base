@@ -28,7 +28,7 @@ export class ClientListComponent implements OnInit {
   readonly store = inject(Store);
   readonly router = inject(Router);
   readonly route: ActivatedRoute = inject(ActivatedRoute);
-  private destroyRef = inject(DestroyRef);
+  readonly destroyRef = inject(DestroyRef);
 
   search = new FormControl('');
 

@@ -1,61 +1,75 @@
-<form [formGroup]="accountForm">
-  <div>
+<div class="form-page">
+  <div class="form-page--header">
+    <h1 class="form-page--title">Account Form</h1>
+  </div>
+  <div class="form-page--content">
+<form class="form" [formGroup]="accountForm">
+  <div class="form-item">
     <label for="clientNumber">Client Number</label>
-    <input id="clientNumber" formControlName="clientNumber" type="text">
+    <input class="input" id="clientNumber" (input)="onIntInput($event, 'clientNumber')" formControlName="clientNumber" type="text">
     @if (accountForm.get('clientNumber')?.invalid && accountForm.get('clientNumber')?.touched) {
       @if (accountForm.get('clientNumber')?.hasError('required')) {
-        <div>Client number is required.</div>
+        <small>client number is required.</small>
       }
       @if (accountForm.get('clientNumber')?.hasError('integerValidator')) {
-        <div>Client number must be an integer.</div>
+        <small>client number must be an integer.</small>
       }
+      @if (accountForm.get('clientNumber')?.hasError('clientNumberTaken')) {
+        <small>client number must be unique</small>
+      }
+
     }
   </div>
 
   <div formArrayName="account">
     @for (account of getAccount(); let i = $index; track i) {
       <div [formGroupName]="i">
-        <div>
+        <div class="form-item">
           <label for="accountNumber{{i}}">Account Number</label>
-          <input id="accountNumber{{i}}" formControlName="accountNumber" type="text">
-          @if (account.get('accountNumber')?.invalid && account.get('accountNumber')?.touched) {
+          <input class="input" id="accountNumber{{i}}" (input)="onIntInput($event, 'accountNumber')" formControlName="accountNumber" type="text">
+          @if (account.get('accountNumber')?.invalid && account.get('accountNumber')?.touched || account.get('accountNumber')?.dirty) {
             @if (account.get('accountNumber')?.hasError('required')) {
-              <div>Account number is required.</div>
+              <small>Account number is required.</small>
             }
             @if (account.get('accountNumber')?.hasError('integerValidator')) {
-              <div>Account number must be an integer.</div>
+              <small>Account number must be an integer.</small>
+            }
+            @if (account.get('accountNumber')?.hasError('accountNumberTaken')) {
+              <small>Account number must be unique</small>
             }
           }
         </div>
 
-        <div>
+        <div class="form-item">
           <label for="accountType{{i}}">Account Type</label>
-          <input id="accountType{{i}}" formControlName="accountType" type="text">
+          <input class="input" id="accountType{{i}}" formControlName="accountType" type="text">
           @if (account.get('accountType')?.invalid && account.get('accountType')?.touched) {
             @if (account.get('accountType')?.hasError('required')) {
-              <div>Account type is required.</div>
+              <small>Account type is required.</small>
             }
           }
         </div>
 
-        <div>
-          <label for="currency{{i}}">Currency</label>
-          <input id="currency{{i}}" formControlName="currency" type="text">
-          @if (account.get('currency')?.invalid && account.get('currency')?.touched) {
-            @if (account.get('currency')?.hasError('required')) {
-              <div>Currency is required.</div>
+        <div class="single-line">
+          <div class="form-item">
+            <label for="currency{{i}}">Currency</label>
+            <input class="input" id="currency{{i}}" formControlName="currency" type="text">
+            @if (account.get('currency')?.invalid && account.get('currency')?.touched) {
+              @if (account.get('currency')?.hasError('required')) {
+                <small>Currency is required.</small>
+              }
             }
-          }
-        </div>
+          </div>
 
-        <div>
-          <label for="accountStatus{{i}}">Account Status</label>
-          <input id="accountStatus{{i}}" formControlName="accountStatus" type="text">
-          @if (account.get('accountStatus')?.invalid && account.get('accountStatus')?.touched) {
-            @if (account.get('accountStatus')?.hasError('required')) {
-              <div>Account status is required.</div>
+          <div class="form-item">
+            <label for="accountStatus{{i}}">Account Status</label>
+            <input class="input" id="accountStatus{{i}}" formControlName="accountStatus" type="text">
+            @if (account.get('accountStatus')?.invalid && account.get('accountStatus')?.touched) {
+              @if (account.get('accountStatus')?.hasError('required')) {
+                <small>Account status is required.</small>
+              }
             }
-          }
+          </div>
         </div>
         @if (i > 0) {
           <button (click)="removeAccount(i)">ანგარიშის წაშლა</button>
@@ -67,3 +81,5 @@
 
   <button type="submit" (click)="onSubmit()">Submit</button>
 </form>
+  </div>
+</div>

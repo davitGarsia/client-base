@@ -1,9 +1,8 @@
-<p>client-form works!</p>
-<div class="page">
-  <div class="page-header">
-    <h1 class="page-title">Client Form</h1>
+<div class="form-page">
+  <div class="form-page--header">
+    <h1 class="form-page--title">Client Form</h1>
   </div>
-  <div class="page-content">
+  <div class="form-page--content">
     <form class="form" [formGroup]="clientForm">
       <div class="form-item">
         <label for="client-number">კლიენტის ნომერი</label>
@@ -111,7 +110,7 @@
       </div>
 
       <div class="">
-        <p>იურიდიული მისამართი</p>
+        <p class="sub-para">იურიდიული მისამართი</p>
         <div class="form-group address--container" formGroupName="officialAddress">
           <div class="single-line">
             <div class="form-item">
@@ -151,7 +150,7 @@
 
       <div class="">
        <div class="form-group address--container" formGroupName="factualAddress">
-         <p>ფაქტობრივი მისამართი</p>
+         <p class="sub-para">ფაქტობრივი მისამართი</p>
          <div class="form-group">
            <div class="single-line">
              <div class="form-item">
@@ -187,20 +186,46 @@
              }
            }
          </div>
-
         </div>
       </div>
 
       <div class="img-upload">
-        <label for="img">სურათი</label>
-        <input type="file" id="img" formControlName="photo" (change)="onFileChange($event)" />
-        @if (photoSignal()) {
-          <img [src]="photoSignal()" alt="client pic" />
-        }
-        <button (click)="removePhoto()">სურათის წაშლა</button>
+        <p class="sub-para">სურათი</p>
+
+        <div class="image-container">
+          <div class="image">
+            @if (photoSignal()) {
+              <img class="img" [src]="photoSignal()" alt="client pic" />
+              <button pTooltip="სურათის წაშლა" class="btn-delete" (click)="removePhoto()">
+                <i  class="icon pi pi-times-circle"></i>
+              </button>
+            }
+          </div>
+
+          <div class="file-upload-container">
+            <label for="file-input" class="custom-file-upload">
+              <i class="pi pi-upload"></i>
+              ატვირთვა
+              <input
+                formControlName="photo"
+                id="file-input"
+                type="file"
+                accept="image/*, .jpeg, .png, .jpg"
+                class="file-input"
+                (change)="onFileChange($event)"
+              />
+            </label>
+          </div>
+        </div>
       </div>
 
+      <hr class="hr">
+
     </form>
-    <button class="btn btn-primary" (click)="onSubmit()">შენახვა</button>
+    <div class="button-container">
+      <button class="btn btn-cancel" [routerLink]="'/clients'">გაუქმება</button>
+      <button class="btn btn-primary" [disabled]="!clientForm.valid" [class.disabled]="clientForm.invalid" (click)="onSubmit()">შენახვა</button>
+    </div>
+
 </div>
 </div>

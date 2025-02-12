@@ -29,39 +29,39 @@ export class ClientEffects {
   );
 
 
-  // createClient$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(ClientActions.createClient),
-  //     mergeMap(({ client }) =>
-  //       this.clientService.addClient(client).pipe(
-  //         map(createdClient => ClientActions.createClientSuccess({ client: createdClient })),
-  //         catchError(error => of(ClientActions.createClientFailure({ error })))
-  //       )
-  //     )
-  //   )
-  // );
-  //
-  // updateClient$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(ClientActions.updateClient),
-  //     mergeMap(({ client }) =>
-  //       this.clientService.updateClient(client).pipe(
-  //         map(updatedClient => ClientActions.updateClientSuccess({ client: updatedClient })),
-  //         catchError(error => of(ClientActions.updateClientFailure({ error })))
-  //       )
-  //     )
-  //   )
-  // );
-  //
-  // deleteClient$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(ClientActions.deleteClient),
-  //     mergeMap(({ clientId }) =>
-  //       this.clientService.deleteClient(clientId).pipe(
-  //         map(() => ClientActions.deleteClientSuccess({ clientId })),
-  //         catchError(error => of(ClientActions.deleteClientFailure({ error })))
-  //       )
-  //     )
-  //   )
-  // );
+  createClient$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientActions.createClient),
+      mergeMap(({ client }) =>
+        this.clientService.addClient(client).pipe(
+          map(createdClient => ClientActions.createClientSuccess({ client: createdClient })),
+          catchError(error => of(ClientActions.createClientFailure({ error })))
+        )
+      )
+    )
+  );
+
+  updateClient$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientActions.updateClient),
+      mergeMap(({ client }) =>
+        this.clientService.updateClient(client).pipe(
+          map(updatedClient => ClientActions.updateClientSuccess({ client: updatedClient })),
+          catchError(error => of(ClientActions.updateClientFailure({ error })))
+        )
+      )
+    )
+  );
+
+  deleteClient$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientActions.deleteClient),
+      mergeMap(({ clientId }) =>
+        this.clientService.deleteClient(clientId).pipe(
+          map(() => ClientActions.deleteClientSuccess({ clientId })),
+          catchError(error => of(ClientActions.deleteClientFailure({ error })))
+        )
+      )
+    )
+  );
 }
