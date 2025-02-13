@@ -1,61 +1,97 @@
 <div class="container">
- <div class="page-top">
-   <input type="text" [formControl]="search" placeholder="Search..." class="input input--search">
-    <button pButton type="button" label="დამატება" [routerLink]="['add']" class="p-button-rounded p-button-success"></button>
- </div>
+  <div class="page-top">
+    <input type="text" [formControl]="search" placeholder="Search..." class="input input--search">
+    <button pButton type="button" class="p-button-rounded p-button-success" routerLink="/clients/add">კლიენტის დამატება</button>
+  </div>
 
   <form class="form" [formGroup]="filterForm">
-    <p-table [value]="clients()" [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto'}" [paginator]="true" [rows]="perPage()"
-             [rowsPerPageOptions]="[5, 10, 20]" [lazy]="true" (onPage)="pageChange($event)" (rowsChange)="onRowChange($event)" [showCurrentPageReport]="true"
-             [first]="(page() - 1) * perPage()"
+    <p-table [value]="clients()"
+             [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto'}"
+             [paginator]="true" [rows]="perPage()"
+             [rowsPerPageOptions]="[5, 10, 20]" [lazy]="true"
+             (onPage)="pageChange($event)" (rowsChange)="onRowChange($event)"
+             [showCurrentPageReport]="true" [first]="(page() - 1) * perPage()"
              [totalRecords]="totalRecords()"
-             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" >
+             [sortField]="sortField()" [sortOrder]="sortOrder() === 'asc' ? 1 : -1"
+             (sortFunction)="onSort($event)"
+             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
       <ng-template #header>
         <tr>
-          <th id="client-number" class="table-header">კლიენტის ნომერი</th>
-          <th id="client-name" class="table-header">სახელი</th>
-          <th id="client-gender" class="table-header">სქესი</th>
-          <th id="personal-number" class="table-header">პირადი ნომერი</th>
-          <th id="client-phone" class="table-header">მობილური</th>
+          <th id="client-number" class="table-header" pSortableColumn="clientNumber" (click)="onSort('clientNumber')">
+            კლიენტის ნომერი
+            @if (sortField() !== 'clientNumber') { <i class="pi pi-sort"></i> }
+            @if (sortField() === 'clientNumber' && sortOrder() === 'asc') { <i class="pi pi-sort-up"></i> }
+            @if (sortField() === 'clientNumber' && sortOrder() === 'desc') { <i class="pi pi-sort-down"></i> }
+          </th>
+          <th id="client-name" class="table-header" pSortableColumn="lastName" (click)="onSort('lastName')">
+            სახელი
+            @if (sortField() !== 'lastName') { <i class="pi pi-sort"></i> }
+            @if (sortField() === 'lastName' && sortOrder() === 'asc') { <i class="pi pi-sort-up"></i> }
+            @if (sortField() === 'lastName' && sortOrder() === 'desc') { <i class="pi pi-sort-down"></i> }
+          </th>
+          <th id="client-gender" class="table-header" pSortableColumn="gender" (click)="onSort('gender')">
+            სქესი
+            @if (sortField() !== 'gender') { <i class="pi pi-sort"></i> }
+            @if (sortField() === 'gender' && sortOrder() === 'asc') { <i class="pi pi-sort-up"></i> }
+            @if (sortField() === 'gender' && sortOrder() === 'desc') { <i class="pi pi-sort-down"></i> }
+          </th>
+          <th id="personal-number" class="table-header" pSortableColumn="personalNumber" (click)="onSort('personalNumber')">
+            პირადი ნომერი
+            @if (sortField() !== 'personalNumber') { <i class="pi pi-sort"></i> }
+            @if (sortField() === 'personalNumber' && sortOrder() === 'asc') { <i class="pi pi-sort-up"></i> }
+            @if (sortField() === 'personalNumber' && sortOrder() === 'desc') { <i class="pi pi-sort-down"></i> }
+          </th>
+          <th id="client-phone" class="table-header" pSortableColumn="phone" (click)="onSort('phone')">
+            მობილური
+            @if (sortField() !== 'phone') { <i class="pi pi-sort"></i> }
+            @if (sortField() === 'phone' && sortOrder() === 'asc') { <i class="pi pi-sort-up"></i> }
+            @if (sortField() === 'phone' && sortOrder() === 'desc') { <i class="pi pi-sort-down"></i> }
+          </th>
           <th id="legal-address" class="table-header">იურიდიული მისამართი</th>
           <th id="factual-address" class="table-header">ფაქტობრივი მისამართი</th>
-          <th id="actions" class="table-header">მოქმედებები</th> <!-- Actions Column -->
+          <th id="actions" class="table-header">მოქმედებები</th>
         </tr>
+
         <tr>
-          <th>
-            <input type="text" formControlName="clientNumber" class="input">
-          </th>
-          <th>
-            <input type="text" formControlName="name" class="input">
-          </th>
-          <th>
-            <select type="text" formControlName="gender" class="input">
-              <option value="male">მამრობითი</option>
-              <option value="female">მდედრობითი</option>
-            </select>
-          </th>
-          <th>
-            <input type="text" formControlName="personalNumber" class="input">
-          </th>
-          <th>
-            <input type="text" formControlName="phone" class="input">
-          </th>
-          <th>
-            <input type="text" formControlName="legalAddress" class="input">
-          </th>
-          <th>
-            <input type="text" formControlName="actualAddress" class="input">
-          </th>
-        </tr>
+                    <th>
+                      <input type="text" formControlName="clientNumber" class="input">
+                    </th>
+                    <th>
+                      <input type="text" formControlName="name" class="input">
+                    </th>
+                    <th>
+                      <div class="custom-select-wrapper">
+                        <select class="custom-select" formControlName="gender">
+                          <option value="" disabled selected>აირჩიეთ</option>
+                          <option value="male">კაცი</option>
+                          <option value="female">ქალი</option>
+                        </select>
+                      </div>
+                    </th>
+                    <th>
+                      <input type="text" formControlName="personalNumber" class="input">
+                    </th>
+                    <th>
+                      <input type="text" formControlName="phone" class="input">
+                    </th>
+                    <th>
+                      <input type="text" formControlName="legalAddress" class="input">
+                    </th>
+                    <th>
+                      <input type="text" formControlName="actualAddress" class="input">
+                    </th>
+                  </tr>
       </ng-template>
+
       <ng-template #body let-client>
         <tr [ngClass]="{'hover-row': true}" (click)="onRowSelect(client?.id)" pTooltip="კლიენტის დეტალურად ნახვა" tooltipPosition="top">
           <td class="table-data">{{ client?.clientNumber }}</td>
           <td class="table-data">{{ client?.name }} {{client?.lastName}}</td>
-          <td class="table-data">{{client?.gender}}</td>
+          <td class="table-data">{{client?.gender === 'male' ? 'კაცი' : 'ქალი'}}</td>
           <td class="table-data">{{ client?.personalNumber }}</td>
           <td class="table-data">{{ client?.phone }}</td>
-          <td class="table-data">{{ client?.legalAddress?.country }} {{ client?.legalAddress?.city }} {{ client?.legalAddress?.address }}</td>
+          <td class="table-data">{{ client?.officialAddress?.country }} {{ client?.officialAddress?.city }} {{ client?.officialAddress?.address }}</td>
           <td class="table-data">{{ client?.factualAddress.country }} {{ client?.factualAddress?.city }} {{ client?.factualAddress?.address }}</td>
           <td class="btn-container">
             <a (click)="$event.stopPropagation()" [routerLink]="['edit', client?.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
@@ -69,5 +105,6 @@
         </tr>
       </ng-template>
     </p-table>
+
   </form>
 </div>

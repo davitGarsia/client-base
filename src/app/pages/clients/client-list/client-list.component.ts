@@ -183,6 +183,19 @@ export class ClientListComponent implements OnInit {
       this.sortField.set(field);
       this.sortOrder.set('asc');
     }
+
+    // Update the query parameters in the URL
+    this.router.navigate([], {
+      queryParams: {
+        _sort: this.sortField(),
+        _order: this.sortOrder(),
+        _page: this.page(),
+        _per_page: this.perPage()
+      },
+      queryParamsHandling: 'merge'
+    });
+
     this.loadClients();
   }
+
 }

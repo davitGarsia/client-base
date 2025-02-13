@@ -1,3 +1,5 @@
+@import "../../../../styles/abstracts/variables";
+
 .client-card {
   background: white;
   border-radius: 12px;
@@ -62,6 +64,7 @@
 
   &__content {
     padding: 2rem;
+    position: relative;
 
     @media (min-width: 768px) {
       width: 66.666%;
@@ -172,4 +175,46 @@
 .flex {
   display: flex;
   gap: 5rem;
+}
+
+.p-button-success {
+  width: 15rem;
+  height: 5rem;
+  font-size: 1.5rem;
+  position: absolute;
+  right: 5rem;
+  bottom: 3rem;
+
+}
+
+
+
+
+.back-button {
+  background-color: $primary-color;
+  color: #fff;
+  border: none;
+  width: 5.5rem;
+  height: 5rem;
+  margin: 3rem 0 0 3rem;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+    transform: scale(1.05);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 4px rgba($primary-color, 0.5);
+  }
+
+  &:active {
+    background-color: darken($primary-color, 20%);
+  }
 }

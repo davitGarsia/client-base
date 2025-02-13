@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import {clientsResolver} from './core/resolvers/clients.resolver';
 import {clientResolver} from './core/resolvers/client.resolver';
 import {clientDetailedResolver} from './core/resolvers/client-detailed.resolver';
+import {alwaysAllowGuard} from './core/guards/mock.guard';
 
 const CLIENT_ROUTES = {
   LIST: 'clients',
@@ -34,25 +35,30 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: COMPONENTS.list,
+        canActivate: [alwaysAllowGuard],
         resolve: { clients: clientsResolver }
       },
       {
         path: CLIENT_ROUTES.ADD,
         loadComponent: COMPONENTS.form,
+        canActivate: [alwaysAllowGuard],
       },
       {
         path: `${CLIENT_ROUTES.EDIT}/:id`,
         loadComponent: COMPONENTS.form,
+        canActivate: [alwaysAllowGuard],
         resolve: {client: clientResolver}
       },
       {
         path: `${CLIENT_ROUTES.DETAIL}/:id`,
         loadComponent: COMPONENTS.detailed,
+        canActivate: [alwaysAllowGuard],
         resolve: {clientDetailed: clientDetailedResolver}
       },
 
       {
         path: `${CLIENT_ROUTES.ADD}/${CLIENT_ROUTES.ACCOUNT}`,
+        canActivate: [alwaysAllowGuard],
         loadComponent: COMPONENTS.account
       },
     ]

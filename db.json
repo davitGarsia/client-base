@@ -17,7 +17,7 @@
         "city": "City 1",
         "address": "Street 1"
       },
-      "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOMA3SfobBoTLlg4AbX8JfzZhhiM6B8PfrdA&s",
+      "photo": "",
       "id": "1"
     },
     {
@@ -48,7 +48,7 @@
       "gender": "male",
       "personalNumber": "1234567890",
       "phone": "1234567890",
-      "legalAddress": {
+      "officialAddress": {
         "country": "Country 6",
         "city": "City 6",
         "address": "Street 6"
@@ -58,7 +58,7 @@
         "city": "City 6",
         "address": "Street 6"
       },
-      "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOMA3SfobBoTLlg4AbX8JfzZhhiM6B8PfrdA&s"
+      "photo": ""
     },
     {
       "id": "7",
@@ -68,7 +68,7 @@
       "gender": "female",
       "personalNumber": "1234567890",
       "phone": "1234567890",
-      "legalAddress": {
+      "officialAddress": {
         "country": "Country 7",
         "city": "City 7",
         "address": "Street 7"
@@ -78,7 +78,7 @@
         "city": "City 7",
         "address": "Street 7"
       },
-      "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOMA3SfobBoTLlg4AbX8JfzZhhiM6B8PfrdA&s"
+      "photo": ""
     },
     {
       "id": "8",
@@ -88,7 +88,7 @@
       "gender": "female",
       "personalNumber": "1234567890",
       "phone": "1234567890",
-      "legalAddress": {
+      "officialAddress": {
         "country": "Country 8",
         "city": "City 8",
         "address": "Street 8"
@@ -98,7 +98,7 @@
         "city": "City 8",
         "address": "Street 8"
       },
-      "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOMA3SfobBoTLlg4AbX8JfzZhhiM6B8PfrdA&s"
+      "photo": ""
     },
     {
       "clientNumber": "88888899",

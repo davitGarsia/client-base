@@ -1,6 +1,10 @@
 
 <div class="client-card">
+
   <div class="client-card__container">
+    <button class="back-button" routerLink="/clients">
+      <i class="pi pi-arrow-left"></i>
+    </button>
     <div class="client-card__image-section">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOMA3SfobBoTLlg4AbX8JfzZhhiM6B8PfrdA&s" alt="Client Photo">
     </div>
@@ -11,39 +15,45 @@
         <span class="client-card__id">კლიენტის ნომერი: {{clientDetailed()[0].clientNumber}}</span>
       </div>
 
-      <div class="client-card__details">
-        <div class="client-card__grid">
-          <div class="client-card__field">
-            <p class="client-card__field-label">სქესი</p>
-            <p class="client-card__field-value">{{clientDetailed()[0].gender}}</p>
+      <div class="flex">
+        <div class="client-card__details">
+          <div class="client-card__grid">
+            <div class="client-card__field">
+              <p class="client-card__field-label">სქესი</p>
+              <p class="client-card__field-value">{{clientDetailed()[0].gender}}</p>
+            </div>
+            <div class="client-card__field">
+              <p class="client-card__field-label">პირადი ნომერი</p>
+              <p class="client-card__field-value">{{clientDetailed()[0].personalNumber}}</p>
+            </div>
+            <div class="client-card__field">
+              <p class="client-card__field-label">ტელეფონი</p>
+              <p class="client-card__field-value">{{clientDetailed()[0].phone}}</p>
+            </div>
           </div>
-          <div class="client-card__field">
-            <p class="client-card__field-label">პირადი ნომერი</p>
-            <p class="client-card__field-value">{{clientDetailed()[0].personalNumber}}</p>
-          </div>
-          <div class="client-card__field">
-            <p class="client-card__field-label">ტელეფონი</p>
-            <p class="client-card__field-value">{{clientDetailed()[0].phone}}</p>
+          <div class="flex">
+            <div class="client-card__address">
+              <div class="client-card__field">
+                <p class="client-card__field-label">იურიდიული მისამართი</p>
+                <p class="client-card__field-value">{{clientDetailed()[0].factualAddress?.address}}</p>
+                <p class="client-card__field-value">{{clientDetailed()[0].factualAddress?.city}}, {{clientDetailed()[0].factualAddress?.country}}</p>
+              </div>
+            </div>
+
+            <div class="client-card__address">
+              <div class="client-card__field">
+                <p class="client-card__field-label">ფაქტობრივი მისამართი</p>
+                <p class="client-card__field-value">{{clientDetailed()[0].officialAddress?.address}}</p>
+                <p class="client-card__field-value">{{clientDetailed()[0].officialAddress?.city}}, {{clientDetailed()[0].officialAddress?.country}}</p>
+              </div>
+            </div>
           </div>
         </div>
-<div class="flex">
-  <div class="client-card__address">
-    <div class="client-card__field">
-      <p class="client-card__field-label">იურიდიული მისამართი</p>
-      <p class="client-card__field-value">{{clientDetailed()[0].factualAddress?.address}}</p>
-      <p class="client-card__field-value">{{clientDetailed()[0].factualAddress?.city}}, {{clientDetailed()[0].factualAddress?.country}}</p>
-    </div>
-  </div>
 
-  <div class="client-card__address">
-    <div class="client-card__field">
-      <p class="client-card__field-label">ფაქტობრივი მისამართი</p>
-      <p class="client-card__field-value">{{clientDetailed()[0].officialAddress?.address}}</p>
-      <p class="client-card__field-value">{{clientDetailed()[0].officialAddress?.city}}, {{clientDetailed()[0].officialAddress?.country}}</p>
-    </div>
-  </div>
-</div>
+        <button routerLink="/clients/add/account" pButton type="button" class="p-button-rounded p-button-success p-mt-2">ანგარიშის დამატება
+        </button>
       </div>
+
     </div>
   </div>
 </div>
