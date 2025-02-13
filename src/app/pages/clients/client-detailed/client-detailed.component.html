@@ -7,73 +7,78 @@
 
     <div class="client-card__content">
       <div class="client-card__header">
-        <h1 class="client-card__name">John Doe</h1>
-        <span class="client-card__id">Client #12345</span>
+        <h1 class="client-card__name">{{clientDetailed()[0].name}}</h1>
+        <span class="client-card__id">კლიენტის ნომერი: {{clientDetailed()[0].clientNumber}}</span>
       </div>
 
       <div class="client-card__details">
         <div class="client-card__grid">
           <div class="client-card__field">
-            <p class="client-card__field-label">Gender</p>
-            <p class="client-card__field-value">Male</p>
+            <p class="client-card__field-label">სქესი</p>
+            <p class="client-card__field-value">{{clientDetailed()[0].gender}}</p>
           </div>
           <div class="client-card__field">
-            <p class="client-card__field-label">Personal Number</p>
-            <p class="client-card__field-value">890123456</p>
+            <p class="client-card__field-label">პირადი ნომერი</p>
+            <p class="client-card__field-value">{{clientDetailed()[0].personalNumber}}</p>
           </div>
           <div class="client-card__field">
-            <p class="client-card__field-label">Phone Number</p>
-            <p class="client-card__field-value">+1 234 567 890</p>
+            <p class="client-card__field-label">ტელეფონი</p>
+            <p class="client-card__field-value">{{clientDetailed()[0].phone}}</p>
           </div>
         </div>
+<div class="flex">
+  <div class="client-card__address">
+    <div class="client-card__field">
+      <p class="client-card__field-label">იურიდიული მისამართი</p>
+      <p class="client-card__field-value">{{clientDetailed()[0].factualAddress?.address}}</p>
+      <p class="client-card__field-value">{{clientDetailed()[0].factualAddress?.city}}, {{clientDetailed()[0].factualAddress?.country}}</p>
+    </div>
+  </div>
 
-        <div class="client-card__address">
-          <div class="client-card__field">
-            <p class="client-card__field-label">Address</p>
-            <p class="client-card__field-value">123 Main Street</p>
-            <p class="client-card__field-value">New York, United States</p>
-          </div>
-        </div>
+  <div class="client-card__address">
+    <div class="client-card__field">
+      <p class="client-card__field-label">ფაქტობრივი მისამართი</p>
+      <p class="client-card__field-value">{{clientDetailed()[0].officialAddress?.address}}</p>
+      <p class="client-card__field-value">{{clientDetailed()[0].officialAddress?.city}}, {{clientDetailed()[0].officialAddress?.country}}</p>
+    </div>
+  </div>
+</div>
       </div>
     </div>
   </div>
 </div>
 
-<p-table [value]="clientDetailed()" [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto'}" [paginator]="true" [rows]="perPage()"
+<p-table [value]="clientDetailed()" [tableStyle]="{ 'min-width': '50rem', 'max-width': '90%', 'margin': '0 auto'}" [paginator]="true" [rows]="perPage()"
          [rowsPerPageOptions]="[5, 10, 20]" [lazy]="true" (onPage)="pageChange($event)" (rowsChange)="onRowChange($event)" [showCurrentPageReport]="true"
          [first]="(page() - 1) * perPage()"
          [totalRecords]="totalRecords()"
          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" >
   <ng-template #header>
     <tr>
-      <th id="client-number" class="table-header">კლიენტის ნომერი</th>
-      <th id="client-name" class="table-header">სახელი</th>
-      <th id="client-gender" class="table-header">სქესი</th>
-      <th id="personal-number" class="table-header">პირადი ნომერი</th>
-      <th id="client-phone" class="table-header">მობილური</th>
-      <th id="legal-address" class="table-header">იურიდიული მისამართი</th>
-      <th id="factual-address" class="table-header">ფაქტობრივი მისამართი</th>
+      <th id="client-number" class="table-header">ანგარიშის ნომერი</th>
+      <th id="client-name" class="table-header">ანგარიშის ტიპი</th>
+      <th id="client-gender" class="table-header">ვალუტა</th>
+      <th id="personal-number" class="table-header">ანგარიშის სტატუსი</th>
       <th id="actions" class="table-header">მოქმედებები</th> <!-- Actions Column -->
     </tr>
   </ng-template>
   <ng-template #body let-client>
-    <tr [ngClass]="{'hover-row': true}" (click)="onRowSelect(client?.id)" pTooltip="კლიენტის დეტალურად ნახვა" tooltipPosition="top">
-      <td class="table-data">{{ client?.clientNumber }}</td>
-      <td class="table-data">{{ client?.name }} {{client?.lastName}}</td>
-      <td class="table-data">{{client?.gender}}</td>
-      <td class="table-data">{{ client?.personalNumber }}</td>
-      <td class="table-data">{{ client?.phone }}</td>
-      <td class="table-data">{{ client?.officialAddress?.country }} {{ client?.officialAddress?.city }} {{ client?.officialAddress?.address }}</td>
-      <td class="table-data">{{ client?.factualAddress?.country }} {{ client?.factualAddress?.city }} {{ client?.factualAddress?.address }}</td>
-      <td class="btn-container">
-        <a (click)="$event.stopPropagation()" [routerLink]="['add', client?.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
-          <i class="pi pi-pencil"></i>
-        </a>
-        <button pButton type="button" class="p-button-rounded p-button-danger"
-                >
-          <i class="pi pi-trash"></i>
-        </button>
-      </td>
-    </tr>
+    @for (account of client?.accounts; track account.id) {
+      <tr [ngClass]="{'hover-row': true}"
+          (click)="onRowSelect(client.id)">
+        <td class="table-data">{{ account.accountNumber }}</td>
+        <td class="table-data">{{ account.accountType }}</td>
+        <td class="table-data">{{ account.currency }}</td>
+        <td class="table-data">{{ account.accountStatus }}</td>
+        <td class="btn-container" pTooltip="ანგარიშის დახურვა"
+            tooltipPosition="top">
+          <button pButton (click)="closeAccount(account)"
+                  type="button"
+                  class="p-button-rounded p-button-danger">
+            <i class="pi pi-times-circle"></i>
+          </button>
+        </td>
+      </tr>
+    }
   </ng-template>
 </p-table>

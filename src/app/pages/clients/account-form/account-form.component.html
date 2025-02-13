@@ -42,7 +42,15 @@
 
         <div class="form-item">
           <label for="accountType{{i}}">Account Type</label>
-          <input class="input" id="accountType{{i}}" formControlName="accountType" type="text">
+          <div class="custom-select-wrapper">
+            <select class="custom-select" formControlName="accountType">
+              <option value="" disabled selected>აირჩიეთ</option>
+              <option value="current">მიმდინარე</option>
+              <option value="keeping">შემნახველი</option>
+              <option value="savings">დაგროვებითი</option>
+            </select>
+          </div>
+
           @if (account.get('accountType')?.invalid && account.get('accountType')?.touched) {
             @if (account.get('accountType')?.hasError('required')) {
               <small>Account type is required.</small>
@@ -53,7 +61,14 @@
         <div class="single-line">
           <div class="form-item">
             <label for="currency{{i}}">Currency</label>
-            <input class="input" id="currency{{i}}" formControlName="currency" type="text">
+            <div class="custom-select-wrapper">
+              <select class="custom-select" formControlName="currency">
+                <option value="" disabled selected>აირჩიეთ</option>
+                <option value="GEL">GEL</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+              </select>
+            </div>
             @if (account.get('currency')?.invalid && account.get('currency')?.touched) {
               @if (account.get('currency')?.hasError('required')) {
                 <small>Currency is required.</small>
@@ -63,7 +78,13 @@
 
           <div class="form-item">
             <label for="accountStatus{{i}}">Account Status</label>
-            <input class="input" id="accountStatus{{i}}" formControlName="accountStatus" type="text">
+            <div class="custom-select-wrapper">
+              <select class="custom-select" formControlName="accountStatus">
+                <option value="" disabled selected>აირჩიეთ</option>
+                <option value="active">აქტიური</option>
+                <option value="closed">დახურული</option>
+              </select>
+            </div>
             @if (account.get('accountStatus')?.invalid && account.get('accountStatus')?.touched) {
               @if (account.get('accountStatus')?.hasError('required')) {
                 <small>Account status is required.</small>

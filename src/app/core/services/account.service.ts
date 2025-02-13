@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BaseService} from './base.service';
+import {Account} from '../interfaces/account.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,8 @@ export class AccountService extends BaseService {
     return this.post('accounts', account);
   }
 
-  closeAccount(accountId: string) {
-    return this.delete(`accounts/${accountId}`);
+  updateAccount(account: Account) {
+    return this.put(`accounts/${account.id}`, account);
   }
 
 

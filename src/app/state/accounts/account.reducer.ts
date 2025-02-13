@@ -14,12 +14,51 @@ export const initialState: AccountState = {
 
 export const accountReducer = createReducer(
   initialState,
+  on(AccountActions.loadAccounts, state => ({
+    ...state,
+    accounts: [],
+    error: null
+  })),
+
   on(AccountActions.loadAccountsSuccess, (state, { accounts }) => ({
     ...state,
     accounts,
     error: null
   })),
+
   on(AccountActions.loadAccountsFailure, (state, { error }) => ({
+    ...state,
+    error
+  })),
+
+  on(AccountActions.addAccount, state => ({
+    ...state,
+    error: null
+  })),
+
+  on(AccountActions.addAccountSuccess, (state, { account }) => ({
+    ...state,
+    accounts: [...state.accounts, account],
+    error: null
+  })),
+
+  on(AccountActions.addAccountFailure, (state, { error }) => ({
+    ...state,
+    error
+  })),
+
+  on(AccountActions.updateAccount, state => ({
+    ...state,
+    error: null
+  })),
+
+  on(AccountActions.updateAccountSuccess, (state, { account }) => ({
+    ...state,
+    accounts: state.accounts.map(a => a.id === account.id ? account : a),
+    error: null
+  })),
+
+  on(AccountActions.updateAccountFailure, (state, { error }) => ({
     ...state,
     error
   }))

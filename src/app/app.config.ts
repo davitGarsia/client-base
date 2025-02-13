@@ -11,6 +11,7 @@ import {AccountEffects} from './state/accounts/account.effects';
 import {providePrimeNG} from 'primeng/config';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import LaraLightBlue from '@primeng/themes/lara';
+import {MessageService} from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
        preset: LaraLightBlue,
         options: {darkModeSelector: '.app-dark'}
 }
-    })
+    }),
+    MessageService
   ]
 };

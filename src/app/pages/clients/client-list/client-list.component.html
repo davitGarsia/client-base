@@ -1,5 +1,8 @@
 <div class="container">
-  <input type="text" [formControl]="search" placeholder="Search..." class="input input--search">
+ <div class="page-top">
+   <input type="text" [formControl]="search" placeholder="Search..." class="input input--search">
+    <button pButton type="button" label="დამატება" [routerLink]="['add']" class="p-button-rounded p-button-success"></button>
+ </div>
 
   <form class="form" [formGroup]="filterForm">
     <p-table [value]="clients()" [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto'}" [paginator]="true" [rows]="perPage()"

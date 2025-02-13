@@ -28,17 +28,17 @@ export const addAccountFailure = createAction(
   props<{ error: any }>()
 );
 
-export const closeAccount = createAction(
-  '[Account] Close Account',
-  props<{ accountId: string }>()
+export const updateAccount = createAction(
+  '[Account] Update Account',
+  props<{ account: Account }>()
 );
 
-export const closeAccountSuccess = createAction(
-  '[Account] Close Account Success',
-  props<{ accountId: string }>()
+export const updateAccountSuccess = createAction(
+  '[Account] Update Account Success',
+  props<{ account: Account }>()
 );
 
-export const closeAccountFailure = createAction(
-  '[Account] Close Account Failure',
+export const updateAccountFailure = createAction(
+  '[Account] Update Account Failure',
   props<{ error: any }>()
 );

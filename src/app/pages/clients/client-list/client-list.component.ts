@@ -11,6 +11,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NgClass } from '@angular/common';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import * as ClientActions from '../../../state/clients/client.actions';
+import {Tooltip} from 'primeng/tooltip';
 
 @Component({
   selector: 'app-client-list',
@@ -21,6 +22,7 @@ import * as ClientActions from '../../../state/clients/client.actions';
     ReactiveFormsModule,
     RouterLink,
     NgClass,
+    Tooltip,
   ],
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.scss'],

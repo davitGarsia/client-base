@@ -11,6 +11,21 @@
   cursor: pointer; /* Optional: Change cursor on hover */
 }
 
+.page-top {
+  display: flex;
+  gap: 5rem;
+  max-width: 85vw;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5rem auto 5rem;
+}
+
+.p-button-success {
+  width: 10rem;
+  height: 4rem;
+  font-size: 1.5rem;
+}
+
 
 .input {
   width: 100%;
@@ -25,10 +40,9 @@
   }
 
   &--search {
-    width: 90%;
+    width: 100%;
     height: 50px;
     display: flex;
-    margin: 5vh auto;
   }
 }
 

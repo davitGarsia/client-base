@@ -36,13 +36,13 @@ export class AccountEffects {
     )
   );
 
-  closeAccount$ = createEffect(() =>
+  updateAccount$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AccountActions.closeAccount),
+      ofType(AccountActions.updateAccount),
       mergeMap((action) =>
-        this.accountService.closeAccount(action.accountId).pipe(
-          map(() => AccountActions.closeAccountSuccess({ accountId: action.accountId })),
-          catchError(error => of(AccountActions.closeAccountFailure({ error })))
+        this.accountService.updateAccount(action.account).pipe(
+          map((account: any) => AccountActions.updateAccountSuccess({ account })),
+          catchError(error => of(AccountActions.updateAccountFailure({ error })))
         )
       )
     )

@@ -1,4 +1,6 @@
 <div class="form-page">
+  <p-messages></p-messages>
+
   <div class="form-page--header">
     <h1 class="form-page--title">Client Form</h1>
   </div>
@@ -61,7 +63,14 @@
 
       <div class="form-item">
         <label for="gender">სქესი</label>
-        <input type="text" id="gender" formControlName="gender" class="input">
+        <div class="custom-select-wrapper">
+          <select class="custom-select">
+            <option value="" disabled selected>აირჩიეთ</option>
+            <option value="male">კაცი</option>
+            <option value="female">ქალი</option>
+          </select>
+        </div>
+
         @if (clientForm.get('gender')?.invalid && (clientForm.get('gender')?.touched)) {
           <small class="error-text">gender is a must</small>
         }
