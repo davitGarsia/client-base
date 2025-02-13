@@ -39,7 +39,7 @@
   </div>
 </div>
 
-<p-table [value]="clients()" [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto'}" [paginator]="true" [rows]="perPage()"
+<p-table [value]="clientDetailed()" [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto'}" [paginator]="true" [rows]="perPage()"
          [rowsPerPageOptions]="[5, 10, 20]" [lazy]="true" (onPage)="pageChange($event)" (rowsChange)="onRowChange($event)" [showCurrentPageReport]="true"
          [first]="(page() - 1) * perPage()"
          [totalRecords]="totalRecords()"
@@ -63,8 +63,8 @@
       <td class="table-data">{{client?.gender}}</td>
       <td class="table-data">{{ client?.personalNumber }}</td>
       <td class="table-data">{{ client?.phone }}</td>
-      <td class="table-data">{{ client?.legalAddress?.country }} {{ client?.legalAddress?.city }} {{ client?.legalAddress?.address }}</td>
-      <td class="table-data">{{ client?.factualAddress.country }} {{ client?.factualAddress?.city }} {{ client?.factualAddress?.address }}</td>
+      <td class="table-data">{{ client?.officialAddress?.country }} {{ client?.officialAddress?.city }} {{ client?.officialAddress?.address }}</td>
+      <td class="table-data">{{ client?.factualAddress?.country }} {{ client?.factualAddress?.city }} {{ client?.factualAddress?.address }}</td>
       <td class="btn-container">
         <a (click)="$event.stopPropagation()" [routerLink]="['add', client?.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
           <i class="pi pi-pencil"></i>

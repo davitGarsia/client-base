@@ -1,3 +1,5 @@
+import {Account} from './account.interface';
+
 export interface Address {
   country: string;
   city: string;
@@ -6,7 +8,7 @@ export interface Address {
 
 export interface Client {
   id?: number;
-  clientNumber: number;
+  clientNumber: string;
   name: string;
   lastName: string;
   gender: string;
@@ -17,7 +19,14 @@ export interface Client {
   photo?: string | File;
 }
 
+export interface ClientDetailed extends Client {
+  accounts: Account[];
+
+}
+
 export interface ClientState {
   clients: Client[];
+  client?: Client[];
+  clientDetailed?: ClientDetailed[];
   error: any;
 }

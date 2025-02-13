@@ -28,6 +28,18 @@ export class ClientEffects {
     )
   );
 
+  loadClientById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientActions.getClientById),
+      mergeMap(({ clientId }) =>
+        this.clientService.getClientById(clientId).pipe(
+          map(client => ClientActions.getClientByIdSuccess({ client })),
+          catchError(error => of(ClientActions.getClientByIdFailure({ error })))
+        )
+      )
+    )
+  );
+
 
   createClient$ = createEffect(() =>
     this.actions$.pipe(
@@ -41,11 +53,23 @@ export class ClientEffects {
     )
   );
 
+  loadClientDetailed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientActions.loadClientsDetailed),
+      mergeMap(({ clientId }) =>
+        this.clientService.getClientDetailed(clientId).pipe(
+          map(clientDetailed => ClientActions.loadClientsDetailedSuccess({ clientDetailed })),
+          catchError(error => of(ClientActions.loadClientsDetailedFailure({ error })))
+        )
+      )
+    )
+  );
+
   updateClient$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientActions.updateClient),
-      mergeMap(({ client }) =>
-        this.clientService.updateClient(client).pipe(
+      mergeMap(({ client, clientId }) =>
+        this.clientService.updateClient(client, clientId ).pipe(
           map(updatedClient => ClientActions.updateClientSuccess({ client: updatedClient })),
           catchError(error => of(ClientActions.updateClientFailure({ error })))
         )

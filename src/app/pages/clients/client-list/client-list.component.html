@@ -55,7 +55,7 @@
           <td class="table-data">{{ client?.legalAddress?.country }} {{ client?.legalAddress?.city }} {{ client?.legalAddress?.address }}</td>
           <td class="table-data">{{ client?.factualAddress.country }} {{ client?.factualAddress?.city }} {{ client?.factualAddress?.address }}</td>
           <td class="btn-container">
-            <a (click)="$event.stopPropagation()" [routerLink]="['add', client?.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
+            <a (click)="$event.stopPropagation()" [routerLink]="['edit', client?.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
               <i class="pi pi-pencil"></i>
             </a>
             <button pButton type="button" class="p-button-rounded p-button-danger"

@@ -10,6 +10,7 @@ import { loadClients } from '../../../state/clients/client.actions';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NgClass } from '@angular/common';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import * as ClientActions from '../../../state/clients/client.actions';
 
 @Component({
   selector: 'app-client-list',
@@ -165,7 +166,12 @@ export class ClientListComponent implements OnInit {
 
   onDeleteClient(event: any, client: Client): void {
     event.stopPropagation();
+    console.log(client)
 
+    if (client.id) {
+      this.store.dispatch(ClientActions.deleteClient({ clientId: client.id.toString() }));
+    }
+    this.store.dispatch(loadClients({ params: {} }));
   }
 
   onSort(field: string): void {

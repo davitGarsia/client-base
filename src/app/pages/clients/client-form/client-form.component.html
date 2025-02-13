@@ -224,7 +224,7 @@
     </form>
     <div class="button-container">
       <button class="btn btn-cancel" [routerLink]="'/clients'">გაუქმება</button>
-      <button class="btn btn-primary" [disabled]="!clientForm.valid" [class.disabled]="clientForm.invalid" (click)="onSubmit()">შენახვა</button>
+      <button class="btn btn-primary" [disabled]="clientForm.invalid" [class.disabled]="clientForm.invalid" (click)="onSubmit()">{{isEditMode() ? 'რედაქტირება' : 'შენახვა'}}</button>
     </div>
 
 </div>

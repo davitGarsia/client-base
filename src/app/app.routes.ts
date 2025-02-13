@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
-import {resolve} from '@angular/compiler-cli';
 import {clientsResolver} from './core/resolvers/clients.resolver';
+import {clientResolver} from './core/resolvers/client.resolver';
+import {clientDetailedResolver} from './core/resolvers/client-detailed.resolver';
 
 const CLIENT_ROUTES = {
   LIST: 'clients',
   ADD: 'add',
+  EDIT: 'edit',
   DETAIL: 'detailed',
   ACCOUNT: 'account'
 } as const;
@@ -35,26 +37,25 @@ export const routes: Routes = [
         resolve: { clients: clientsResolver }
       },
       {
-        path: `${CLIENT_ROUTES.ADD}/${CLIENT_ROUTES.ACCOUNT}`,
-        loadComponent: COMPONENTS.account
+        path: CLIENT_ROUTES.ADD,
+        loadComponent: COMPONENTS.form,
       },
       {
-        path: CLIENT_ROUTES.ADD,
-        children: [
-          {
-            path: '',
-            loadComponent: COMPONENTS.form
-          },
-          {
-            path: ':id',
-            loadComponent: COMPONENTS.form
-          }
-        ]
+        path: `${CLIENT_ROUTES.EDIT}/:id`,
+        loadComponent: COMPONENTS.form,
+        resolve: {client: clientResolver}
       },
       {
         path: `${CLIENT_ROUTES.DETAIL}/:id`,
-        loadComponent: COMPONENTS.detailed
-      }
+        loadComponent: COMPONENTS.detailed,
+        resolve: {clientDetailed: clientDetailedResolver}
+      },
+
+      {
+        path: `${CLIENT_ROUTES.ADD}/${CLIENT_ROUTES.ACCOUNT}`,
+        loadComponent: COMPONENTS.account
+      },
     ]
-  }
+  },
+
 ];
