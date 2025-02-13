@@ -1,0 +1,13 @@
+@if (visible) {
+  <div class="dialog-wrapper" (click)="hide()">
+    <div class="dialog visible" (click)="$event.stopPropagation()">
+      <div class="dialog-header">
+        <h3>{{ title }}</h3>
+      </div>
+      <div class="dialog-footer">
+        <button class="cancel-btn" (click)="hide()">გაუქმება</button>
+        <button class="ok-btn" (click)="onConfirm()">დიახ</button>
+      </div>
+    </div>
+  </div>
+}

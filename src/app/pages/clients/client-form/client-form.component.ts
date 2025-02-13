@@ -46,7 +46,6 @@ export class ClientFormComponent implements OnInit {
   client = toSignal(this.store.select(selectClient));
   clientForm!: FormGroup;
 
-  // Signals
   loading = signal(false);
   error = signal<string | null>(null);
   photoSignal = signal<string>('');

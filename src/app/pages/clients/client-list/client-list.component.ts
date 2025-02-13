@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject, DestroyRef } from '@angular/core';
+import {Component, OnInit, signal, inject, DestroyRef, ViewChild} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
@@ -12,6 +12,7 @@ import { NgClass } from '@angular/common';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import * as ClientActions from '../../../state/clients/client.actions';
 import {Tooltip} from 'primeng/tooltip';
+import {DialogComponent} from '../../../shared/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-client-list',
@@ -23,6 +24,7 @@ import {Tooltip} from 'primeng/tooltip';
     RouterLink,
     NgClass,
     Tooltip,
+    DialogComponent,
   ],
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.scss'],
@@ -33,7 +35,14 @@ export class ClientListComponent implements OnInit {
   readonly route: ActivatedRoute = inject(ActivatedRoute);
   readonly destroyRef = inject(DestroyRef);
 
+  @ViewChild('dialog') dialog!: DialogComponent;
+
+  isDialogVisible = signal(false);
+
   search = new FormControl('');
+
+  dialogVisible = signal(false);
+  selectedClientId = signal<string>('');
 
   page = signal(Number(this.route.snapshot.queryParams['_page'] || 1));
   searchTerm = signal(this.route.snapshot.queryParams['search'] || '');
@@ -132,17 +141,16 @@ export class ClientListComponent implements OnInit {
       params = { ...filterParams };
     }
 
-    // Ensure signals are converted to primitive values
-    params._page = this.page();        // Ensure number
-    params._per_page = this.perPage(); // Ensure number
-    params._sort = this.sortField();   // Ensure string
-    params._order = this.sortOrder();  // Ensure string
+    params._page = this.page();
+    params._per_page = this.perPage();
+    params._sort = this.sortField();
+    params._order = this.sortOrder();
 
     this.store.dispatch(loadClients({ params }));
 
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { ...params }, // Ensure all values are primitives
+      queryParams: { ...params },
     });
   }
 
@@ -166,13 +174,9 @@ export class ClientListComponent implements OnInit {
     this.router.navigate(['clients', 'detailed', id]);
   }
 
-  onDeleteClient(event: any, client: Client): void {
-    event.stopPropagation();
-    console.log(client)
+  onDeleteClient(): void {
+    this.store.dispatch(ClientActions.deleteClient({ clientId: this.selectedClientId() }));
 
-    if (client.id) {
-      this.store.dispatch(ClientActions.deleteClient({ clientId: client.id.toString() }));
-    }
     this.store.dispatch(loadClients({ params: {} }));
   }
 
@@ -184,7 +188,7 @@ export class ClientListComponent implements OnInit {
       this.sortOrder.set('asc');
     }
 
-    // Update the query parameters in the URL
+
     this.router.navigate([], {
       queryParams: {
         _sort: this.sortField(),
@@ -196,6 +200,18 @@ export class ClientListComponent implements OnInit {
     });
 
     this.loadClients();
+  }
+
+
+  openDialog(id: string, event: Event) {
+    console.log('openDialog', id);
+    event.stopPropagation();
+    this.dialogVisible.set(true);
+    this.selectedClientId.set(id);
+  }
+
+  closeDialog() {
+    this.dialogVisible.set(false);
   }
 
 }

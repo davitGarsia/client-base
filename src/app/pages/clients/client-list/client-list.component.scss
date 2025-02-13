@@ -3,13 +3,13 @@
 
 .btn-container {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-/* Style for rows when hovered */
 .hover-row:hover {
-  background-color: #dad7d7; /* Highlight row */
-  cursor: pointer; /* Optional: Change cursor on hover */
+  background-color: #dad7d7;
+  cursor: pointer;
 }
 
 .page-top {
@@ -50,5 +50,6 @@
 .custom-select-wrapper {
   width: 12rem;
 }
+
 
 

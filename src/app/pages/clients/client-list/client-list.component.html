@@ -6,7 +6,7 @@
 
   <form class="form" [formGroup]="filterForm">
     <p-table [value]="clients()"
-             [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto'}"
+             [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto', 'font-size': '18px'}"
              [paginator]="true" [rows]="perPage()"
              [rowsPerPageOptions]="[5, 10, 20]" [lazy]="true"
              (onPage)="pageChange($event)" (rowsChange)="onRowChange($event)"
@@ -14,7 +14,7 @@
              [totalRecords]="totalRecords()"
              [sortField]="sortField()" [sortOrder]="sortOrder() === 'asc' ? 1 : -1"
              (sortFunction)="onSort($event)"
-             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+             currentPageReportTemplate="{first} - {last} სრული ({totalRecords}) რაოდენობიდან">
 
       <ng-template #header>
         <tr>
@@ -93,18 +93,27 @@
           <td class="table-data">{{ client?.phone }}</td>
           <td class="table-data">{{ client?.officialAddress?.country }} {{ client?.officialAddress?.city }} {{ client?.officialAddress?.address }}</td>
           <td class="table-data">{{ client?.factualAddress.country }} {{ client?.factualAddress?.city }} {{ client?.factualAddress?.address }}</td>
-          <td class="btn-container">
-            <a (click)="$event.stopPropagation()" [routerLink]="['edit', client?.id]" pButton type="button" class="p-button-rounded p-button-warning p-mr-2">
-              <i class="pi pi-pencil"></i>
-            </a>
-            <button pButton type="button" class="p-button-rounded p-button-danger"
-                    (click)="onDeleteClient($event, client)">
-              <i class="pi pi-trash"></i>
-            </button>
+          <td class="table-data">
+            <div class="btn-container">
+              <a (click)="$event.stopPropagation()" [routerLink]="['edit', client?.id]" pButton type="button" class="p-button-rounded p-button-info">
+                <i class="pi pi-pencil"></i>
+              </a>
+              <button pButton type="button" class="p-button-rounded p-button-danger"
+                      (click)="openDialog(client.id, $event)">
+                <i class="pi pi-trash"></i>
+              </button>
+            </div>
           </td>
         </tr>
       </ng-template>
     </p-table>
+
+    <app-dialog
+      [visible]="dialogVisible()"
+      [title]="'ნამდვილად გსურთ კლიენტის წაშლა?'"
+      (close)="closeDialog()"
+      (confirm)="onDeleteClient()"
+      #dialog></app-dialog>
 
   </form>
 </div>

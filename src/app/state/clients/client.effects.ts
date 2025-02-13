@@ -19,7 +19,7 @@ export class ClientEffects {
       mergeMap(({ params }) =>
         this.clientService.getClients(params).pipe(
           map(response => {
-            const clients = response?.data ?? response; // If response has 'data', extract it; otherwise, use response directly
+            const clients = response?.data ?? response;
             return ClientActions.loadClientsSuccess({ clients });
           }),
           catchError(error => of(ClientActions.loadClientsFailure({ error })))

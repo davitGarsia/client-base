@@ -46,7 +46,6 @@ export class ClientDetailedComponent implements OnInit {
   error = signal<string | null>(null);
 
   ngOnInit() {
-    // Initial data from resolver
     this.route.data.pipe(
       takeUntilDestroyed(this.destroy$)
     ).subscribe({
@@ -65,7 +64,6 @@ export class ClientDetailedComponent implements OnInit {
       }
     });
 
-    // Subscribe to store updates
     this.store.select(selectClientDetailed).pipe(
       takeUntilDestroyed(this.destroy$)
     ).subscribe({
@@ -97,7 +95,6 @@ export class ClientDetailedComponent implements OnInit {
   }
 
   onRowSelect(id: string): void {
-    // Handle row selection if needed
   }
 
   closeAccount(account: Account) {
