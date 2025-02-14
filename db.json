@@ -1,26 +1,6 @@
 {
   "clients": [
     {
-      "clientNumber": "888888899338",
-      "name": "Client",
-      "lastName": "Last Name",
-      "gender": "male",
-      "personalNumber": "55555555555",
-      "phone": "558148078",
-      "officialAddress": {
-        "country": "Georgia",
-        "city": "Tbilisi",
-        "address": "Janashia street 22-26"
-      },
-      "factualAddress": {
-        "country": "Country 1",
-        "city": "City 1",
-        "address": "Street 1"
-      },
-      "photo": "",
-      "id": "1"
-    },
-    {
       "clientNumber": "1",
       "name": "davit",
       "lastName": "garsia",
@@ -38,7 +18,7 @@
         "address": "Street 5"
       },
       "photo": "",
-      "id": "5"
+      "id": "1"
     },
     {
       "id": "7",
@@ -203,12 +183,16 @@
   ],
   "accounts": [
     {
-      "id": "1",
-      "clientNumber": "888888899338",
-      "accountNumber": 1,
-      "accountType": "debit",
-      "currency": "USD",
-      "accountStatus": "closed"
+      "clientNumber": "1",
+      "account": [
+        {
+          "accountNumber": null,
+          "accountType": null,
+          "currency": null,
+          "accountStatus": "closed"
+        }
+      ],
+      "id": "1"
     },
     {
       "id": "2",
@@ -225,6 +209,18 @@
           "accountNumber": "1111111111",
           "accountType": "მიმდინარე",
           "currency": "euro",
+          "accountStatus": "active"
+        }
+      ]
+    },
+    {
+      "id": "da21",
+      "clientNumber": "88888",
+      "account": [
+        {
+          "accountNumber": "1111111111",
+          "accountType": "current",
+          "currency": "GEL",
           "accountStatus": "active"
         }
       ]

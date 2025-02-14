@@ -6,7 +6,7 @@
 
   <form class="form" [formGroup]="filterForm">
     <p-table [value]="clients()"
-             [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto', 'font-size': '18px'}"
+             [tableStyle]="{ 'min-width': '50rem', 'max-width': '95%', 'margin': '0 auto'}"
              [paginator]="true" [rows]="perPage()"
              [rowsPerPageOptions]="[5, 10, 20]" [lazy]="true"
              (onPage)="pageChange($event)" (rowsChange)="onRowChange($event)"

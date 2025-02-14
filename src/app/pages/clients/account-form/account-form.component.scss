@@ -7,3 +7,42 @@
 .form-page--content {
   width: 40vw
 }
+
+
+.account-item {
+  padding: 20px;
+  border: 1px solid $white-grey;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.btn-add {
+  display: flex;
+  margin: 0 auto;
+  width: 15rem;
+  height: 6rem;
+  font-size: 1.5rem;
+  background-color: $shade-blue;
+  color: #fff;
+  border: none;
+  text-align: center;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: none;
+  width: 5.5rem;
+  height: 5rem;
+  background: none;
+  color: $danger-color;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pi {
+  font-size: 24px;
+}
+

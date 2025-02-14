@@ -1,4 +1,5 @@
 @import "../../../../styles/abstracts/variables";
+@import "../../../../styles/components/table";
 
 .client-card {
   background: white;
@@ -87,12 +88,12 @@
   }
 
   &__name {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #2d3748;
 
     @media (min-width: 1200px) {
-      font-size: 2rem;
+      font-size: 2.2rem;
     }
   }
 
@@ -101,12 +102,12 @@
     color: #1e40af;
     padding: 0.5rem 1rem;
     border-radius: 6px;
-    font-size: 0.875rem;
+    font-size: 1.5rem;
     font-weight: 600;
     transition: background-color 0.3s ease;
 
     @media (min-width: 1200px) {
-      font-size: 1rem;
+      font-size: 1.5rem;
       padding: 0.75rem 1.5rem;
     }
 
@@ -137,14 +138,14 @@
 
   &__field {
     &-label {
-      font-size: 0.875rem;
+      font-size: 1.3rem;
       color: #6b7280;
       margin-bottom: 0.25rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
 
       @media (min-width: 1200px) {
-        font-size: 1rem;
+        font-size: 1.5rem;
         margin-bottom: 0.5rem;
       }
     }
@@ -152,10 +153,10 @@
     &-value {
       font-weight: 500;
       color: #1f2937;
-      font-size: 1rem;
+      font-size: 1.5rem;
 
       @media (min-width: 1200px) {
-        font-size: 1.125rem;
+        font-size: 1.5em;
       }
     }
   }

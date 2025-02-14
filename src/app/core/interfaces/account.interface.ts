@@ -4,7 +4,7 @@ export interface AccountForm {
 }
 
 export interface Account {
-  id: number | null;
+  id?: number | null;
   clientNumber: number;
   accountNumber: number | null;
   accountType: string | null;

@@ -2,7 +2,7 @@
   <p-messages></p-messages>
 
   <div class="form-page--header">
-    <h1 class="form-page--title">Client Form</h1>
+    <h1 class="form-page--title">{{isEditMode() ? 'კლიენტის რედაქტირება' : 'კლიენტის დამატება'}}</h1>
   </div>
   <div class="form-page--content">
     <form class="form" [formGroup]="clientForm">
@@ -11,13 +11,13 @@
         <input type="text" id="client-number" pattern="\d*" (input)="onIntInput($event, 'clientNumber')" formControlName="clientNumber" class="input">
         @if (clientForm.get('clientNumber')?.invalid && (clientForm.get('clientNumber')?.touched || clientForm.get('clientNumber')?.dirty)) {
           @if (clientForm.get('clientNumber')?.hasError('required')) {
-            <small class="error-text">Client number is required.</small>
+            <small class="error-text">კლიენტის ნომერი აუცილებელია.</small>
           }
           @if (clientForm.get('clientNumber')?.hasError('nonInteger')) {
-            <small class="error-text">Client number must be a number.</small>
+            <small class="error-text">კლიენტის ნომერი უნდა იყოს ციფრი</small>
           }
           @if (clientForm.get('clientNumber')?.hasError('clientNumberTaken')) {
-            <small class="error-text">Client number must be unique.</small>
+            <small class="error-text">კლიენტის ნომერი უნდა იყოს უნიკალური.</small>
           }
         }
       </div>
@@ -28,16 +28,16 @@
           <input type="text" id="name" formControlName="name" class="input">
           @if (clientForm.get('name')?.invalid && (clientForm.get('name')?.touched || clientForm.get('name')?.dirty)) {
             @if (clientForm.get('name')?.hasError('required')) {
-              <small class="error-text">Name is required.</small>
+              <small class="error-text">სახელი აუცილებელია.</small>
             }
             @if (clientForm.get('name')?.hasError('minlength')) {
-              <small class="error-text">Name must be at least 2 characters long.</small>
+              <small class="error-text">სახელი უნდა შეიცავდეს მინიმუმ 2 სიმბოლოს</small>
             }
             @if (clientForm.get('name')?.hasError('maxlength')) {
-              <small class="error-text">Name must be at most 50 characters long.</small>
+              <small class="error-text">სახელი არ შეიძლება იყოს 50 სიმბოლოზე გრძელი</small>
             }
             @if (clientForm.get('name')?.hasError('mixedLanguages')) {
-              <small class="error-text">Name must contain Georgian or Latin letters</small>
+              <small class="error-text">სახელი უნდა შეიცავდეს ქართულ ან ლათინურ ასოებს</small>
             }
           }
         </div>
@@ -46,16 +46,16 @@
           <input type="text" id="last-name" formControlName="lastName" class="input">
             @if (clientForm.get('lastName')?.invalid && (clientForm.get('lastName')?.touched || clientForm.get('lastName')?.dirty)) {
                 @if (clientForm.get('lastName')?.hasError('required')) {
-                <small class="error-text">Last name is required.</small>
+                <small class="error-text">გვარი აუცილებელია</small>
                 }
                 @if (clientForm.get('lastName')?.hasError('minlength')) {
-                <small class="error-text">Last name must be at least 2 characters long.</small>
+                <small class="error-text">გვარი უნდა შეიცავდეს მინიმუმ 2 სიმბოლოს</small>
                 }
                 @if (clientForm.get('lastName')?.hasError('maxlength')) {
-                <small class="error-text">Last name must be at most 50 characters long.</small>
+                <small class="error-text">გვარი უნდა შეიცავდეს მაქსიმუმ 50 სიმბოლოს</small>
                 }
                 @if (clientForm.get('lastName')?.hasError('mixedLanguages')) {
-                <small class="error-text">Last name must contain Georgian or Latin letters</small>
+                <small class="error-text">გვარი უნდა შეიცავდეს ქართულ ან ლათინურ ასოებს</small>
                 }
             }
         </div>
@@ -71,7 +71,7 @@
           </select>
         </div>
         @if (clientForm.get('gender')?.invalid && (clientForm.get('gender')?.touched)) {
-          <small class="error-text">gender is a must</small>
+          <small class="error-text">სქესი აუცილებელია</small>
         }
       </div>
       <div class="form-item">
@@ -79,19 +79,19 @@
         <input type="text" id="personal-number" maxlength="11" pattern="\d*" (input)="onIntInput($event, 'personal-number')" formControlName="personalNumber" class="input">
         @if (clientForm.get('personalNumber')?.invalid && (clientForm.get('personalNumber')?.touched || clientForm.get('personalNumber')?.dirty)) {
           @if (clientForm.get('personalNumber')?.hasError('required')) {
-            <small class="error-text">Personal number is required.</small>
+            <small class="error-text">პირადი ნომერი აუცილებელია</small>
           }
           @if (clientForm.get('personalNumber')?.hasError('nonInteger')) {
-            <small class="error-text">Personal number must be a number.</small>
+            <small class="error-text">პირადი ნომერი უნდა შეიცავდეს მხოლოდ ციფრებს</small>
           }
           @if (clientForm.get('personalNumber')?.hasError('personalNumberTaken')) {
-            <small class="error-text">Personal number must be unique.</small>
+            <small class="error-text">პირადი ნომერი უნდა იყოს უნიკალური</small>
           }
           @if (clientForm.get('personalNumber')?.hasError('minlength')) {
-            <small class="error-text">Personal number must be at least 11 characters long.</small>
+            <small class="error-text">პირადი ნომერი უნდა შეიცავდეს 11 სიმბოლოს</small>
           }
             @if (clientForm.get('personalNumber')?.hasError('maxlength')) {
-                <small class="error-text">Personal number must be at most 11 characters long.</small>
+                <small class="error-text">პირადი ნომერი უნდა შეიცავდეს 11 სიმბოლოს</small>
             }
         }
       </div>
@@ -100,19 +100,19 @@
         <input type="text" id="phone" formControlName="phone" class="input">
         @if (clientForm.get('phone')?.invalid && (clientForm.get('phone')?.touched || clientForm.get('phone')?.dirty)) {
           @if (clientForm.get('phone')?.hasError('required')) {
-            <small class="error-text">Phone is required.</small>
+            <small class="error-text">მობილური აუცილებელია</small>
           }
           @if (clientForm.get('phone')?.hasError('minlength')) {
-            <small class="error-text">Phone must be at least 9 characters long.</small>
+            <small class="error-text">ტელეფონი უნდა შეიცავდეს 9 სიმბოლოს</small>
           }
           @if (clientForm.get('phone')?.hasError('maxlength')) {
-            <small class="error-text">Phone must be at most 9 characters long.</small>
+            <small class="error-text">ტელეფონი უნდა შეიცავდეს 9 სიმბოლოს</small>
           }
           @if (clientForm.get('phone')?.hasError('nonInteger')) {
-            <small class="error-text">Phone must be a number.</small>
+            <small class="error-text">ტელეფონი უნდა შეიცავდეს მხოლოდ ციფრებს</small>
           }
           @if (clientForm.get('phone')?.hasError('notStartingWithFive')) {
-            <small class="error-text">Phone must start with 5.</small>
+            <small class="error-text">ტელეფონი უნდა იწყებოდეს 5-ით</small>
           }
         }
       </div>
@@ -127,7 +127,7 @@
               @if (clientForm.get('officialAddress.country')?.invalid &&
               (clientForm.get('officialAddress.country')?.touched || clientForm.get('officialAddress.country')?.dirty)) {
                 @if (clientForm.get('officialAddress.country')?.hasError('required')) {
-                  <small class="error-text">Country is required.</small>
+                  <small class="error-text">ქვეყანა აუცილებელია</small>
                 }
               }
             </div>
@@ -137,7 +137,7 @@
               @if (clientForm.get('officialAddress.city')?.invalid &&
               (clientForm.get('officialAddress.city')?.touched || clientForm.get('officialAddress.city')?.dirty)) {
                 @if (clientForm.get('officialAddress.city')?.hasError('required')) {
-                  <small class="error-text">City is required.</small>
+                  <small class="error-text">ქალაქი აუცილებელია</small>
                 }
               }
             </div>
@@ -148,7 +148,7 @@
             @if (clientForm.get('officialAddress.address')?.invalid &&
             (clientForm.get('officialAddress.address')?.touched || clientForm.get('officialAddress.address')?.dirty)) {
               @if (clientForm.get('officialAddress.address')?.hasError('required')) {
-                <small class="error-text">Address is required.</small>
+                <small class="error-text">მისამართი აუცილებელია</small>
               }
             }
           </div>
@@ -167,7 +167,7 @@
                @if (clientForm.get('factualAddress.country')?.invalid &&
                (clientForm.get('factualAddress.country')?.touched || clientForm.get('factualAddress.country')?.dirty)) {
                  @if (clientForm.get('factualAddress.country')?.hasError('required')) {
-                   <small class="error-text">Country is required.</small>
+                   <small class="error-text">ქვეყანა აუცილებელია</small>
                  }
                }
              </div>
@@ -178,7 +178,7 @@
                @if (clientForm.get('factualAddress.city')?.invalid &&
                (clientForm.get('factualAddress.city')?.touched || clientForm.get('factualAddress.city')?.dirty)) {
                  @if (clientForm.get('factualAddress.city')?.hasError('required')) {
-                   <small class="error-text">City is required.</small>
+                   <small class="error-text">ქალაქი აუცილებელია</small>
                  }
                }
              </div>
@@ -190,7 +190,7 @@
            @if (clientForm.get('factualAddress.address')?.invalid &&
            (clientForm.get('factualAddress.address')?.touched || clientForm.get('factualAddress.address')?.dirty)) {
              @if (clientForm.get('factualAddress.address')?.hasError('required')) {
-               <small class="error-text">Address is required.</small>
+               <small class="error-text">მისამართი აუცილებელია</small>
              }
            }
          </div>

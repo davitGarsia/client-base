@@ -82,13 +82,27 @@
         <td class="table-data">{{ account.accountStatus }}</td>
         <td class="btn-container" pTooltip="ანგარიშის დახურვა"
             tooltipPosition="top">
-          <button pButton (click)="closeAccount(account)"
-                  type="button"
-                  class="p-button-rounded p-button-danger">
-            <i class="pi pi-times-circle"></i>
-          </button>
+          <div class="btn-container">
+            <a (click)="$event.stopPropagation()" [routerLink]="['/clients/edit/account', account?.id]" pButton type="button" class="p-button-rounded p-button-info">
+              <i class="pi pi-pencil"></i>
+            </a>
+            <button pButton (click)="openDialog(account, $event)"
+                    type="button"
+                    class="p-button-rounded p-button-danger">
+              <i class="pi pi-times-circle"></i>
+            </button>
+          </div>
+
         </td>
       </tr>
     }
   </ng-template>
 </p-table>
+
+<app-dialog
+  [visible]="dialogVisible()"
+  [title]="'ნამდვილად გსურთ კლიენტის წაშლა?'"
+  (close)="closeDialog()"
+  (confirm)="closeAccount()"
+  #dialog></app-dialog>
+

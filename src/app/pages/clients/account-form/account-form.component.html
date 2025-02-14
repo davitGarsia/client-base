@@ -1,47 +1,44 @@
 <div class="form-page">
   <div class="form-page--header">
-    <h1 class="form-page--title">Account Form</h1>
+    <h1 class="form-page--title">ანგარიშის დამატება</h1>
   </div>
   <div class="form-page--content">
 <form class="form" [formGroup]="accountForm">
   <div class="form-item">
-    <label for="clientNumber">Client Number</label>
+    <label for="clientNumber">კლიენტის ნომერი</label>
     <input class="input" id="clientNumber" (input)="onIntInput($event, 'clientNumber')" formControlName="clientNumber" type="text">
     @if (accountForm.get('clientNumber')?.invalid && accountForm.get('clientNumber')?.touched) {
       @if (accountForm.get('clientNumber')?.hasError('required')) {
-        <small>client number is required.</small>
+        <small>კლიენტის ნომერი აუცილებელია</small>
       }
       @if (accountForm.get('clientNumber')?.hasError('integerValidator')) {
-        <small>client number must be an integer.</small>
+        <small>კლიენტის ნომერი შეიძლება შეიცავდეს მხოლოდ ციფრებს</small>
       }
-      @if (accountForm.get('clientNumber')?.hasError('clientNumberTaken')) {
-        <small>client number must be unique</small>
       }
-
-    }
   </div>
 
-  <div formArrayName="account">
+  <div class="account-container"  formArrayName="account">
     @for (account of getAccount(); let i = $index; track i) {
       <div [formGroupName]="i">
+        <div class="account-item">
         <div class="form-item">
-          <label for="accountNumber{{i}}">Account Number</label>
+          <label for="accountNumber{{i}}">ანგარიშის ნომერი</label>
           <input class="input" id="accountNumber{{i}}" (input)="onIntInput($event, 'accountNumber')" formControlName="accountNumber" type="text">
           @if (account.get('accountNumber')?.invalid && account.get('accountNumber')?.touched || account.get('accountNumber')?.dirty) {
             @if (account.get('accountNumber')?.hasError('required')) {
-              <small>Account number is required.</small>
+              <small>ანგარიშის ნომერი აუცილებელია</small>
             }
             @if (account.get('accountNumber')?.hasError('integerValidator')) {
-              <small>Account number must be an integer.</small>
+              <small>ანგარიშის ნომერი შეიძლება შეიცავდეს მხოლოდ ციფრებს</small>
             }
             @if (account.get('accountNumber')?.hasError('accountNumberTaken')) {
-              <small>Account number must be unique</small>
+              <small>ანგარიშის ნომერი უნდა იყოს უნიკალური</small>
             }
           }
         </div>
 
         <div class="form-item">
-          <label for="accountType{{i}}">Account Type</label>
+          <label for="accountType{{i}}">ანგარიშის ტიპი</label>
           <div class="custom-select-wrapper">
             <select class="custom-select" formControlName="accountType">
               <option value="" disabled selected>აირჩიეთ</option>
@@ -53,14 +50,14 @@
 
           @if (account.get('accountType')?.invalid && account.get('accountType')?.touched) {
             @if (account.get('accountType')?.hasError('required')) {
-              <small>Account type is required.</small>
+              <small>ანგარიშის ტიპი აუცილებელია</small>
             }
           }
         </div>
 
         <div class="single-line">
           <div class="form-item">
-            <label for="currency{{i}}">Currency</label>
+            <label for="currency{{i}}">ვალუტა</label>
             <div class="custom-select-wrapper">
               <select class="custom-select" formControlName="currency">
                 <option value="" disabled selected>აირჩიეთ</option>
@@ -71,13 +68,13 @@
             </div>
             @if (account.get('currency')?.invalid && account.get('currency')?.touched) {
               @if (account.get('currency')?.hasError('required')) {
-                <small>Currency is required.</small>
+                <small>ვალუტა აუცილებელია</small>
               }
             }
           </div>
 
           <div class="form-item">
-            <label for="accountStatus{{i}}">Account Status</label>
+            <label for="accountStatus{{i}}">ანგარიშის სტატუსი</label>
             <div class="custom-select-wrapper">
               <select class="custom-select" formControlName="accountStatus">
                 <option value="" disabled selected>აირჩიეთ</option>
@@ -87,20 +84,23 @@
             </div>
             @if (account.get('accountStatus')?.invalid && account.get('accountStatus')?.touched) {
               @if (account.get('accountStatus')?.hasError('required')) {
-                <small>Account status is required.</small>
+                <small>ანგარიშის სტატუსი აუცილებელია</small>
               }
             }
           </div>
         </div>
         @if (i > 0) {
-          <button (click)="removeAccount(i)">ანგარიშის წაშლა</button>
+          <button class="delete-btn" (click)="removeAccount(i)">
+            <i class="pi pi-times-circle"></i>
+          </button>
         }
       </div>
+      </div>
     }
-    <button (click)="addAccount()">ანგარიშის დამატება</button>
+    <button class="btn btn-add" (click)="addAccount()">ანგარიშის დამატება</button>
   </div>
 
-  <button type="submit" (click)="onSubmit()">Submit</button>
+  <button type="submit" class="btn btn-primary" (click)="onSubmit()">შენახვა</button>
 </form>
   </div>
 </div>

@@ -61,6 +61,14 @@ export const routes: Routes = [
         canActivate: [alwaysAllowGuard],
         loadComponent: COMPONENTS.account
       },
+
+      {
+        path: `${CLIENT_ROUTES.EDIT}/${CLIENT_ROUTES.ACCOUNT}/:id`,
+        canActivate: [alwaysAllowGuard],
+        loadComponent: COMPONENTS.account,
+        resolve: {clientDetailed: clientDetailedResolver}
+      }
+
     ]
   },
 

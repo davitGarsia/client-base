@@ -19,7 +19,15 @@ export class AccountService extends BaseService {
     return this.post('accounts', account);
   }
 
-  updateAccount(account: Account) {
+
+  updateAccount(account: any, id: string) {
+    console.log(`accounts/${id}`)
+    return this.put(`accounts/${id}`, account);
+  }
+
+
+  closeAccount(account: Account) {
+    console.log(`accounts/${account.id}`)
     return this.put(`accounts/${account.id}`, account);
   }
 

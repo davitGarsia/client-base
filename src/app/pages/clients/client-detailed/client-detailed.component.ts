@@ -14,6 +14,7 @@ import { catchError, of, switchMap, take } from 'rxjs';
 import { selectClientDetailed } from '../../../state/clients/client.selectors';
 import { MessageService } from 'primeng/api';
 import {Tooltip} from 'primeng/tooltip';
+import {DialogComponent} from '../../../shared/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-client-detailed',
@@ -25,7 +26,8 @@ import {Tooltip} from 'primeng/tooltip';
     TableModule,
     RouterLink,
     NgClass,
-    Tooltip
+    Tooltip,
+    DialogComponent
   ],
   providers: [MessageService],
   templateUrl: './client-detailed.component.html',
@@ -37,6 +39,9 @@ export class ClientDetailedComponent implements OnInit {
   private destroy$ = inject(DestroyRef);
   private route = inject(ActivatedRoute);
   private messageService = inject(MessageService);
+
+  dialogVisible = signal(false);
+  account: WritableSignal<Account[]> = signal([]);
 
   totalRecords = signal(8);
   page = signal(1);
@@ -97,17 +102,17 @@ export class ClientDetailedComponent implements OnInit {
   onRowSelect(id: string): void {
   }
 
-  closeAccount(account: Account) {
+  closeAccount() {
     this.loading.set(true);
     this.error.set(null);
 
     this.actions$.pipe(
-      ofType(AccountActions.updateAccount),
+      ofType(AccountActions.closeAccount),
       switchMap(() => this.actions$.pipe(
-        ofType(AccountActions.updateAccountSuccess, AccountActions.updateAccountFailure)
+        ofType(AccountActions.closeAccountSuccess, AccountActions.closeAccountFailure)
       )),
       switchMap((action) => {
-        if (action.type === AccountActions.updateAccountFailure.type) {
+        if (action.type === AccountActions.closeAccountFailure.type) {
           throw new Error('Failed to update account');
         }
         const clientId = this.clientDetailed()[0].id;
@@ -147,8 +152,20 @@ export class ClientDetailedComponent implements OnInit {
       }
     });
 
-    this.store.dispatch(AccountActions.updateAccount({
-      account: { ...account, accountStatus: 'closed' }
+    this.store.dispatch(AccountActions.closeAccount({
+      account: { ...this.account()[0], accountStatus: 'closed' }
     }));
+  }
+
+  openDialog(account: Account, event: Event) {
+  //  console.log('openDialog', id);
+    event.stopPropagation();
+    this.dialogVisible.set(true);
+    this.account.set([account]);
+
+  }
+
+  closeDialog() {
+    this.dialogVisible.set(false);
   }
 }

@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AccountActions from './account.actions';
 import {AccountService} from '../../core/services/account.service';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()
@@ -39,10 +39,24 @@ export class AccountEffects {
   updateAccount$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AccountActions.updateAccount),
+      tap(action => console.log('Effect received updateAccount with id:', action.id)),
       mergeMap((action) =>
-        this.accountService.updateAccount(action.account).pipe(
+
+        this.accountService.updateAccount(action.account, action.id).pipe(
           map((account: any) => AccountActions.updateAccountSuccess({ account })),
           catchError(error => of(AccountActions.updateAccountFailure({ error })))
+        )
+      )
+    )
+  );
+
+  closeAccount$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AccountActions.closeAccount),
+      mergeMap((action) =>
+        this.accountService.closeAccount(action.account).pipe(
+          map((account: any) => AccountActions.closeAccountSuccess({ account })),
+          catchError(error => of(AccountActions.closeAccountFailure({ error })))
         )
       )
     )
