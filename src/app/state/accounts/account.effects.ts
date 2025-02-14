@@ -39,7 +39,6 @@ export class AccountEffects {
   updateAccount$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AccountActions.updateAccount),
-      tap(action => console.log('Effect received updateAccount with id:', action.id)),
       mergeMap((action) =>
 
         this.accountService.updateAccount(action.account, action.id).pipe(

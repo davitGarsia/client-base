@@ -228,7 +228,7 @@
         {
           "accountNumber": "101010",
           "accountType": "მიმდინარე",
-          "currency": "euro",
+          "currency": "EUR",
           "accountStatus": "დახურული"
         }
       ],
@@ -362,7 +362,7 @@
           "accountNumber": "1111111111",
           "accountType": "მიმდინარე",
           "currency": "USD",
-          "accountStatus": "აქტიური"
+          "accountStatus": "დახურული"
         }
       ],
       "clientNumber": "1"
@@ -390,6 +390,18 @@
         }
       ],
       "clientNumber": "1"
+    },
+    {
+      "id": "a018",
+      "account": [
+        {
+          "accountNumber": "1111111111",
+          "accountType": "მიმდინარე",
+          "currency": "USD",
+          "accountStatus": "დახურული"
+        }
+      ],
+      "clientNumber": "88888889"
     }
   ]
 }

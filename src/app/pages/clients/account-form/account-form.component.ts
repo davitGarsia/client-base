@@ -73,7 +73,8 @@ export class AccountFormComponent implements OnInit {
       takeUntilDestroyed(this.destroy$)
     ).subscribe({
       next: data => {
-        if (data['clientDetailed']?.[0]) {
+        console.log(data['clientDetailed'])
+        if (data['clientDetailed']?.[0]?.accounts?.[0]) {
           this.populateForm(data['clientDetailed'][0].accounts[0]);
         }
       },
@@ -85,6 +86,7 @@ export class AccountFormComponent implements OnInit {
   }
 
   private populateForm(account: Account): void {
+    console.log(account)
     Object.keys(this.accountForm.controls).forEach(key => {
       const control = this.accountForm.get(key);
       const value = account[key as keyof Account];
@@ -93,14 +95,15 @@ export class AccountFormComponent implements OnInit {
         control.clear();
 
         value.forEach((accountItem: any) => {
+          console.log(accountItem)
           control.push(new FormGroup({
-            accountNumber: new FormControl(accountItem.accountNumber, {
+            accountNumber: new FormControl(accountItem?.accountNumber, {
               validators: [Validators.required, integerValidator],
               asyncValidators: [this.uniqueAccountNumberValidator.validate.bind(this.uniqueAccountNumberValidator)]
             }),
-            accountType: new FormControl(accountItem.accountType, Validators.required),
-            currency: new FormControl(accountItem.currency, Validators.required),
-            accountStatus: new FormControl(accountItem.accountStatus, Validators.required),
+            accountType: new FormControl(accountItem?.accountType, Validators.required),
+            currency: new FormControl(accountItem?.currency, Validators.required),
+            accountStatus: new FormControl(accountItem?.accountStatus, Validators.required),
           }));
         });
       } else if (control instanceof FormControl) {
