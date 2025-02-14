@@ -178,7 +178,6 @@ export class ClientFormComponent {
   private populateForm(client: any): void {
     if (!client) return;
 
-    console.log('Populating form with client:', client);
     if (this.clientForm.dirty) return;
 
     this.clientForm.reset();

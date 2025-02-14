@@ -56,11 +56,9 @@ export class AccountFormComponent implements OnInit {
     ).subscribe({
       next: params => {
         if (params['id']) {
-          console.log(params['id']);
           this.accountId.set(params['id']);
           this.isEditMode.set(true);
         } else if (params['clientNumber']) {
-          console.log(params['clientNumber']);
           this.accountForm.get('clientNumber')?.setValue(params['clientNumber']);
         }
         this.accountForm.get('clientNumber')?.disable();
@@ -76,7 +74,6 @@ export class AccountFormComponent implements OnInit {
     ).subscribe({
       next: data => {
         if (data['clientDetailed']?.[0]) {
-          console.log(data['clientDetailed'][0].accounts[0]);
           this.populateForm(data['clientDetailed'][0].accounts[0]);
         }
       },
@@ -112,8 +109,6 @@ export class AccountFormComponent implements OnInit {
     });
   }
 
-
-
   addAccount(): void {
     (this.accountForm.get('account') as FormArray).push(new FormGroup({
       accountNumber: new FormControl(null,
@@ -143,7 +138,6 @@ export class AccountFormComponent implements OnInit {
 
 
   addAccountNumber(): void {
-    console.log(this.accountForm.value);
     const body = {
       ...this.accountForm.value,
       clientNumber: this.accountForm.get('clientNumber')?.value,
@@ -153,16 +147,12 @@ export class AccountFormComponent implements OnInit {
   }
 
   editAccount() {
-    console.log(typeof this.accountId());
     this.store.dispatch(AccountActions.updateAccount({
       account: this.accountForm.value as Account,
       id: this.accountId()
     }));
 
   }
-
-
-
 
   onSubmit() {
     if (this.isEditMode()) {
@@ -172,11 +162,6 @@ export class AccountFormComponent implements OnInit {
       this.addAccountNumber();
       this.messageService.showSuccess('Success', 'Account added successfully');
     }
-
     this.router.navigate(['/clients']);
-
-
   }
-
-
 }

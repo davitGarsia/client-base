@@ -138,7 +138,7 @@
         <div class="form-group address--container">
           <div class="single-line">
             <div class="form-item">
-              <label for="country">Country</label>
+              <label for="country">ქვეყანა</label>
               <input class="input" id="country" formControlName="country">
               @if (clientForm.get('officialAddress.country')?.invalid && (clientForm.get('officialAddress.country')?.touched || clientForm.get('officialAddress.country')?.dirty)) {
                 @if (clientForm.get('officialAddress.country')?.hasError('required')) {
@@ -147,7 +147,7 @@
               }
             </div>
             <div class="form-item">
-              <label for="city">City</label>
+              <label for="city">ქალაქი</label>
               <input class="input" id="city" formControlName="city">
               @if (clientForm.get('officialAddress.city')?.invalid && (clientForm.get('officialAddress.city')?.touched || clientForm.get('officialAddress.city')?.dirty)) {
                 @if (clientForm.get('officialAddress.city')?.hasError('required')) {
@@ -157,7 +157,7 @@
             </div>
           </div>
           <div class="form-item">
-            <label for="address">Address</label>
+            <label for="address">მისამართი</label>
             <input class="input" id="address" formControlName="address">
             @if (clientForm.get('officialAddress.address')?.invalid && (clientForm.get('officialAddress.address')?.touched || clientForm.get('officialAddress.address')?.dirty)) {
               @if (clientForm.get('officialAddress.address')?.hasError('required')) {
@@ -173,7 +173,7 @@
         <div class="form-group address--container">
           <div class="single-line">
             <div class="form-item">
-              <label for="addr-country">Country</label>
+              <label for="addr-country">ქვეყანა</label>
               <input class="input" id="addr-country" formControlName="country">
               @if (clientForm.get('factualAddress.country')?.invalid && (clientForm.get('factualAddress.country')?.touched || clientForm.get('factualAddress.country')?.dirty)) {
                 @if (clientForm.get('factualAddress.country')?.hasError('required')) {
@@ -182,7 +182,7 @@
               }
             </div>
             <div class="form-item">
-              <label for="addr-city">City</label>
+              <label for="addr-city">ქალაქი</label>
               <input class="input" id="addr-city" formControlName="city">
               @if (clientForm.get('factualAddress.city')?.invalid && (clientForm.get('factualAddress.city')?.touched || clientForm.get('factualAddress.city')?.dirty)) {
                 @if (clientForm.get('factualAddress.city')?.hasError('required')) {
@@ -192,7 +192,7 @@
             </div>
           </div>
           <div class="form-item">
-            <label for="factual-address">Address</label>
+            <label for="factual-address">მისამართი</label>
             <input class="input" id="factual-address" formControlName="address">
             @if (clientForm.get('factualAddress.address')?.invalid && (clientForm.get('factualAddress.address')?.touched || clientForm.get('factualAddress.address')?.dirty)) {
               @if (clientForm.get('factualAddress.address')?.hasError('required')) {
