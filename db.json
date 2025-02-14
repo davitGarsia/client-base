@@ -333,7 +333,7 @@
           "accountNumber": "115588",
           "accountType": "მიმდინარე",
           "currency": "GEL",
-          "accountStatus": "დახურული"
+          "accountStatus": "closed"
         }
       ],
       "clientNumber": "1"

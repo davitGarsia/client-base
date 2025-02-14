@@ -158,7 +158,7 @@ export class ClientDetailedComponent implements OnInit {
         account: [
           {
             ...this.account()[0].account[0],
-            accountStatus: 'closed'
+            accountStatus: 'დახურული'
           }
         ]
       }
