@@ -1,10 +1,13 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import { Component, computed, DestroyRef, effect, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Tooltip } from 'primeng/tooltip';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Actions, ofType } from '@ngrx/effects';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { integerValidator } from '../../../shared/validators/integer-validator';
 import { georgianOrLatinValidator } from '../../../shared/validators/language-validator';
@@ -13,10 +16,16 @@ import { startsWithFiveValidator } from '../../../shared/validators/phone-number
 import { RestrictSymbolsService } from '../../../shared/utils/restrict-symbols.service';
 import * as ClientActions from '../../../state/clients/client.actions';
 import { selectClient } from '../../../state/clients/client.selectors';
-import {MessagesModule} from 'primeng/messages';
-import {MessageModule} from 'primeng/message';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import {AppMessageService} from '../../../core/services/message.service';
+import { AppMessageService } from '../../../core/services/message.service';
+
+interface ClientFormState {
+  loading: boolean;
+  error: string | null;
+  photo: string;
+  imageAsBase64: string;
+  isEditMode: boolean;
+  clientId: string;
+}
 
 @Component({
   selector: 'app-client-form',
@@ -29,80 +38,81 @@ import {AppMessageService} from '../../../core/services/message.service';
     MessageModule,
     ProgressSpinnerModule
   ],
-  providers: [],
   templateUrl: './client-form.component.html',
   styleUrl: './client-form.component.scss'
 })
-export class ClientFormComponent implements OnInit {
+export class ClientFormComponent {
+  private readonly fb = inject(FormBuilder);
   private readonly store = inject(Store);
   private readonly actions$ = inject(Actions);
   private readonly messageService = inject(AppMessageService);
-  private router = inject(Router);
+  private readonly router = inject(Router);
   private readonly uniqueClientNumberValidator = inject(UniqueClientNumberValidator);
   private readonly restrictSymbolsService = inject(RestrictSymbolsService);
   private readonly route = inject(ActivatedRoute);
   private readonly destroy$ = inject(DestroyRef);
 
-  client = toSignal(this.store.select(selectClient));
-  clientForm!: FormGroup;
+  protected readonly state = signal<ClientFormState>({
+    loading: false,
+    error: null,
+    photo: '',
+    imageAsBase64: '',
+    isEditMode: false,
+    clientId: ''
+  });
 
-  loading = signal(false);
-  error = signal<string | null>(null);
-  photoSignal = signal<string>('');
-  imageAsBase64 = signal<string>('');
-  isEditMode = signal<boolean>(false);
-  clientId = signal<string>('');
+  protected readonly client: Signal<any> = this.store.selectSignal(selectClient);
+  protected readonly clientForm: FormGroup = this.initializeForm();
 
-  ngOnInit() {
-    this.initializeForm();
+  constructor() {
     this.setupRouteParamsSubscription();
     this.setupActionsSubscription();
+    this.setupFormEffects();
   }
 
-  private initializeForm(): void {
-    this.clientForm = new FormGroup({
-      clientNumber: new FormControl(null, {
+  private initializeForm(): FormGroup {
+    return this.fb.group({
+      clientNumber: [null, {
         validators: [Validators.required, integerValidator],
-        asyncValidators: !this.isEditMode() ?
-          [this.uniqueClientNumberValidator.validate.bind(this.uniqueClientNumberValidator)] :
-          []
-      }),
-      name: new FormControl(null, [
+        asyncValidators: !this.state().isEditMode ?
+          [this.uniqueClientNumberValidator.validate.bind(this.uniqueClientNumberValidator)] : []
+      }],
+      name: [null, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
         georgianOrLatinValidator()
-      ]),
-      lastName: new FormControl(null, [
+      ]],
+      lastName: [null, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
         georgianOrLatinValidator()
-      ]),
-      gender: new FormControl(null, Validators.required),
-      personalNumber: new FormControl(null, [
+      ]],
+      gender: [null, Validators.required],
+      personalNumber: [null, [
         Validators.required,
         Validators.minLength(11),
         Validators.maxLength(11)
-      ]),
-      phone: new FormControl(null, [
+      ]],
+      phone: [null, [
         Validators.required,
         Validators.minLength(9),
         Validators.maxLength(9),
         startsWithFiveValidator(),
         integerValidator
-      ]),
-      officialAddress: new FormGroup({
-        country: new FormControl(null, [Validators.required]),
-        city: new FormControl(null, [Validators.required]),
-        address: new FormControl(null, [Validators.required])
+      ]],
+      officialAddress: this.fb.group({
+        country: [null, Validators.required],
+        city: [null, Validators.required],
+        address: [null, Validators.required]
       }),
-      factualAddress: new FormGroup({
-        country: new FormControl(null, [Validators.required]),
-        city: new FormControl(null, [Validators.required]),
-        address: new FormControl(null, [Validators.required])
+      factualAddress: this.fb.group({
+        country: [null, Validators.required],
+        city: [null, Validators.required],
+        address: [null, Validators.required]
       }),
-      photo: new FormControl(null)
+      photo: [null]
     });
   }
 
@@ -112,13 +122,11 @@ export class ClientFormComponent implements OnInit {
     ).subscribe({
       next: params => {
         if (params['id']) {
-          this.clientId.set(params['id']);
-          this.isEditMode.set(true);
+          this.state.update(s => ({ ...s, clientId: params['id'], isEditMode: true }));
         }
       },
-      error: (err) => {
-        this.error.set('Failed to process route parameters');
-        this.messageService.showError('Error', 'Failed to process route parameters');
+      error: () => {
+        this.handleError('Failed to process route parameters');
       }
     });
 
@@ -126,16 +134,16 @@ export class ClientFormComponent implements OnInit {
       takeUntilDestroyed(this.destroy$)
     ).subscribe({
       next: data => {
-        if (data['client']?.[0]) {
+        if (this.state().isEditMode && data['client']?.[0] && !this.clientForm.dirty) {
           this.populateForm(data['client'][0]);
         }
       },
-      error: (err) => {
-        this.error.set('Failed to load client data');
-        this.messageService.showError('Error', 'Failed to load client data');
+      error: () => {
+        this.handleError('Failed to load client data');
       }
     });
   }
+
 
   private setupActionsSubscription(): void {
     this.actions$.pipe(
@@ -148,24 +156,33 @@ export class ClientFormComponent implements OnInit {
       takeUntilDestroyed(this.destroy$)
     ).subscribe({
       next: (action) => {
-        this.loading.set(false);
-        if (action.type === ClientActions.createClientSuccess.type ||
-          action.type === ClientActions.updateClientSuccess.type) {
-          this.messageService.showSuccess('Success', `კლიენტი წარმატებით ${this.isEditMode() ? 'განახლდა' : 'დაემატა'}`);
-          this.router.navigate(['/clients']);
-        } else {
-          this.error.set('Operation failed');
-          this.messageService.showError('Error', 'Operation failed');
-        }
+        this.handleActionResponse(action);
       },
-      error: (err) => {
-        this.loading.set(false);
+      error: () => {
+        this.state.update(s => ({ ...s, loading: false }));
         this.messageService.showInfo('Error', 'An unexpected error occurred');
       }
     });
   }
 
+  private setupFormEffects(): void {
+    effect(() => {
+      const currentState = this.state();
+      if (currentState.photo) {
+        this.clientForm.get('photo')?.markAsDirty();
+        this.clientForm.get('photo')?.markAsTouched();
+      }
+    });
+  }
+
   private populateForm(client: any): void {
+    if (!client) return;
+
+    console.log('Populating form with client:', client);
+    if (this.clientForm.dirty) return;
+
+    this.clientForm.reset();
+
     Object.keys(this.clientForm.controls).forEach(key => {
       if (key !== 'photo') {
         const control = this.clientForm.get(key);
@@ -180,9 +197,13 @@ export class ClientFormComponent implements OnInit {
       }
     });
 
-    this.photoSignal.set(client.photo);
-    this.imageAsBase64.set(client.photo);
+    this.state.update(s => ({
+      ...s,
+      photo: client.photo || '',
+      imageAsBase64: client.photo || ''
+    }));
   }
+
 
   onIntInput(event: Event, controlName: string): void {
     const sanitizedValue = this.restrictSymbolsService.sanitizeOnInput(event, controlName);
@@ -203,10 +224,11 @@ export class ClientFormComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
-      this.imageAsBase64.set(result);
-      this.photoSignal.set(result);
-      this.clientForm.get('photo')?.markAsDirty();
-      this.clientForm.get('photo')?.markAsTouched();
+      this.state.update(s => ({
+        ...s,
+        imageAsBase64: result,
+        photo: result
+      }));
     };
     reader.onerror = () => {
       this.messageService.showWarning('Warning', 'Failed to read the file');
@@ -215,13 +237,16 @@ export class ClientFormComponent implements OnInit {
   }
 
   removePhoto(): void {
-    this.photoSignal.set('');
-    this.imageAsBase64.set('');
+    this.state.update(s => ({
+      ...s,
+      photo: '',
+      imageAsBase64: ''
+    }));
     this.clientForm.get('photo')?.setValue(null);
   }
 
   onSubmit(): void {
-    if (this.loading()) return;
+    if (this.state().loading) return;
 
     this.clientForm.markAllAsTouched();
     if (this.clientForm.invalid) {
@@ -229,23 +254,42 @@ export class ClientFormComponent implements OnInit {
       return;
     }
 
-    this.loading.set(true);
-    this.error.set(null);
+    this.state.update(s => ({ ...s, loading: true, error: null }));
 
     const body = {
       ...this.clientForm.value,
-      photo: this.imageAsBase64()
+      photo: this.state().imageAsBase64
     };
 
-    if (this.isEditMode()) {
+    if (this.state().isEditMode) {
       this.store.dispatch(ClientActions.updateClient({
         client: body,
-        clientId: this.clientId()
+        clientId: this.state().clientId
       }));
     } else {
       this.store.dispatch(ClientActions.createClient({
         client: body
       }));
     }
+  }
+
+  private handleActionResponse(action: any): void {
+    this.state.update(s => ({ ...s, loading: false }));
+
+    if (action.type === ClientActions.createClientSuccess.type ||
+      action.type === ClientActions.updateClientSuccess.type) {
+      this.messageService.showSuccess(
+        'Success',
+        `კლიენტი წარმატებით ${this.state().isEditMode ? 'განახლდა' : 'დაემატა'}`
+      );
+      this.router.navigate(['/clients']);
+    } else {
+      this.handleError('Operation failed');
+    }
+  }
+
+  private handleError(message: string): void {
+    this.state.update(s => ({ ...s, error: message }));
+    this.messageService.showError('Error', message);
   }
 }
