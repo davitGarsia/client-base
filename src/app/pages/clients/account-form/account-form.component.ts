@@ -86,7 +86,6 @@ export class AccountFormComponent implements OnInit {
   }
 
   private populateForm(account: Account): void {
-    console.log(account)
     Object.keys(this.accountForm.controls).forEach(key => {
       const control = this.accountForm.get(key);
       const value = account[key as keyof Account];
@@ -95,7 +94,6 @@ export class AccountFormComponent implements OnInit {
         control.clear();
 
         value.forEach((accountItem: any) => {
-          console.log(accountItem)
           control.push(new FormGroup({
             accountNumber: new FormControl(accountItem?.accountNumber, {
               validators: [Validators.required, integerValidator],
