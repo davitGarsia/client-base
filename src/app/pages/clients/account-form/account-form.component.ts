@@ -144,7 +144,13 @@ export class AccountFormComponent implements OnInit {
 
 
   addAccountNumber(): void {
-    this.store.dispatch(AccountActions.addAccount({account: this.accountForm.value}));
+    console.log(this.accountForm.value);
+    const body = {
+      ...this.accountForm.value,
+      clientNumber: this.accountForm.get('clientNumber')?.value,
+
+    }
+    this.store.dispatch(AccountActions.addAccount({account: body}));
   }
 
   editAccount() {
