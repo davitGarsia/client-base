@@ -41,7 +41,7 @@ export class ClientDetailedComponent implements OnInit {
   private messageService = inject(MessageService);
 
   dialogVisible = signal(false);
-  account: WritableSignal<Account[]> = signal([]);
+  account: WritableSignal<any> = signal([]);
 
   totalRecords = signal(8);
   page = signal(1);
@@ -57,6 +57,7 @@ export class ClientDetailedComponent implements OnInit {
       next: (data) => {
         if (data['clientDetailed']) {
           this.clientDetailed.set(data['clientDetailed']);
+          console.log('Client detailed data:', this.clientDetailed());
         }
       },
       error: (err) => {
@@ -153,16 +154,23 @@ export class ClientDetailedComponent implements OnInit {
     });
 
     this.store.dispatch(AccountActions.closeAccount({
-      account: { ...this.account()[0], accountStatus: 'closed' }
+      account: {
+        ...this.account()[0],
+        account: [
+          {
+            ...this.account()[0].account[0],
+            accountStatus: 'closed'
+          }
+        ]
+      }
     }));
+
   }
 
-  openDialog(account: Account, event: Event) {
-  //  console.log('openDialog', id);
+  openDialog(account: any, event: Event, index: number) {
     event.stopPropagation();
     this.dialogVisible.set(true);
     this.account.set([account]);
-
   }
 
   closeDialog() {

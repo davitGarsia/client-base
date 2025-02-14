@@ -183,13 +183,24 @@
   ],
   "accounts": [
     {
+      "account": [
+        {
+          "accountNumber": "101010",
+          "accountType": "მიმდინარე",
+          "currency": "USD",
+          "accountStatus": "აქტიური"
+        }
+      ],
+      "id": "1"
+    },
+    {
       "clientNumber": "1",
       "account": [
         {
-          "accountNumber": null,
-          "accountType": null,
-          "currency": null,
-          "accountStatus": "closed"
+          "accountNumber": "101010",
+          "accountType": "მიმდინარე",
+          "currency": "euro",
+          "accountStatus": "active"
         }
       ],
       "id": "1"
@@ -222,6 +233,51 @@
           "accountType": "current",
           "currency": "GEL",
           "accountStatus": "active"
+        }
+      ]
+    },
+    {
+      "id": "a159",
+      "clientNumber": "888888899338",
+      "account": [
+        {
+          "accountNumber": "1111111111",
+          "accountType": "current",
+          "currency": "GEL",
+          "accountStatus": "active"
+        }
+      ]
+    },
+    {
+      "id": "139b",
+      "account": [
+        {
+          "accountNumber": "1111111111",
+          "accountType": "current",
+          "currency": "GEL",
+          "accountStatus": "active"
+        }
+      ]
+    },
+    {
+      "id": "9e41",
+      "account": [
+        {
+          "accountNumber": null,
+          "accountType": null,
+          "currency": null,
+          "accountStatus": null
+        }
+      ]
+    },
+    {
+      "id": "720a",
+      "account": [
+        {
+          "accountNumber": null,
+          "accountType": null,
+          "currency": null,
+          "accountStatus": null
         }
       ]
     }

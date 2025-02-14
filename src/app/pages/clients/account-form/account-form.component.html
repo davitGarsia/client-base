@@ -1,6 +1,6 @@
 <div class="form-page">
   <div class="form-page--header">
-    <h1 class="form-page--title">ანგარიშის დამატება</h1>
+    <h1 class="form-page--title">{{isEditMode() ? 'ანგარიშის რედაქტირება' : 'ანგარიშის დამატება'}}</h1>
   </div>
   <div class="form-page--content">
 <form class="form" [formGroup]="accountForm">
@@ -9,10 +9,10 @@
     <input class="input" id="clientNumber" (input)="onIntInput($event, 'clientNumber')" formControlName="clientNumber" type="text">
     @if (accountForm.get('clientNumber')?.invalid && accountForm.get('clientNumber')?.touched) {
       @if (accountForm.get('clientNumber')?.hasError('required')) {
-        <small>კლიენტის ნომერი აუცილებელია</small>
+        <small class="error-text">კლიენტის ნომერი აუცილებელია</small>
       }
       @if (accountForm.get('clientNumber')?.hasError('integerValidator')) {
-        <small>კლიენტის ნომერი შეიძლება შეიცავდეს მხოლოდ ციფრებს</small>
+        <small class="error-text">კლიენტის ნომერი შეიძლება შეიცავდეს მხოლოდ ციფრებს</small>
       }
       }
   </div>
@@ -26,13 +26,13 @@
           <input class="input" id="accountNumber{{i}}" (input)="onIntInput($event, 'accountNumber')" formControlName="accountNumber" type="text">
           @if (account.get('accountNumber')?.invalid && account.get('accountNumber')?.touched || account.get('accountNumber')?.dirty) {
             @if (account.get('accountNumber')?.hasError('required')) {
-              <small>ანგარიშის ნომერი აუცილებელია</small>
+              <small class="error-text">ანგარიშის ნომერი აუცილებელია</small>
             }
             @if (account.get('accountNumber')?.hasError('integerValidator')) {
-              <small>ანგარიშის ნომერი შეიძლება შეიცავდეს მხოლოდ ციფრებს</small>
+              <small class="error-text">ანგარიშის ნომერი შეიძლება შეიცავდეს მხოლოდ ციფრებს</small>
             }
             @if (account.get('accountNumber')?.hasError('accountNumberTaken')) {
-              <small>ანგარიშის ნომერი უნდა იყოს უნიკალური</small>
+              <small class="error-text">ანგარიშის ნომერი უნდა იყოს უნიკალური</small>
             }
           }
         </div>
@@ -42,15 +42,15 @@
           <div class="custom-select-wrapper">
             <select class="custom-select" formControlName="accountType">
               <option value="" disabled selected>აირჩიეთ</option>
-              <option value="current">მიმდინარე</option>
-              <option value="keeping">შემნახველი</option>
-              <option value="savings">დაგროვებითი</option>
+              <option value="მიმდინარე">მიმდინარე</option>
+              <option value="შემნახველი">შემნახველი</option>
+              <option value="დაგროვებითი">დაგროვებითი</option>
             </select>
           </div>
 
           @if (account.get('accountType')?.invalid && account.get('accountType')?.touched) {
             @if (account.get('accountType')?.hasError('required')) {
-              <small>ანგარიშის ტიპი აუცილებელია</small>
+              <small class="error-text">ანგარიშის ტიპი აუცილებელია</small>
             }
           }
         </div>
@@ -68,7 +68,7 @@
             </div>
             @if (account.get('currency')?.invalid && account.get('currency')?.touched) {
               @if (account.get('currency')?.hasError('required')) {
-                <small>ვალუტა აუცილებელია</small>
+                <small class="error-text">ვალუტა აუცილებელია</small>
               }
             }
           </div>
@@ -78,13 +78,13 @@
             <div class="custom-select-wrapper">
               <select class="custom-select" formControlName="accountStatus">
                 <option value="" disabled selected>აირჩიეთ</option>
-                <option value="active">აქტიური</option>
-                <option value="closed">დახურული</option>
+                <option value="აქტიური">აქტიური</option>
+                <option value="დახურული">დახურული</option>
               </select>
             </div>
             @if (account.get('accountStatus')?.invalid && account.get('accountStatus')?.touched) {
               @if (account.get('accountStatus')?.hasError('required')) {
-                <small>ანგარიშის სტატუსი აუცილებელია</small>
+                <small class="error-text">ანგარიშის სტატუსი აუცილებელია</small>
               }
             }
           </div>
@@ -100,7 +100,7 @@
     <button class="btn btn-add" (click)="addAccount()">ანგარიშის დამატება</button>
   </div>
 
-  <button type="submit" class="btn btn-primary" (click)="onSubmit()">შენახვა</button>
+  <button type="submit" [disabled]="accountForm.invalid" [class.disabled]="accountForm.invalid" class="btn btn-primary" (click)="onSubmit()">შენახვა</button>
 </form>
   </div>
 </div>

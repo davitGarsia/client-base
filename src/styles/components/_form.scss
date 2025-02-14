@@ -61,3 +61,7 @@
     box-shadow: 0 0 5px rgba($primary-color, 0.5);
   }
 }
+
+input:disabled {
+  background-color: #dbd9d9;
+}

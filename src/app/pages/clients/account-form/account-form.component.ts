@@ -33,7 +33,7 @@ export class AccountFormComponent implements OnInit {
 
   ngOnInit() {
     this.accountForm = new FormGroup({
-      clientNumber: new FormControl(null, [Validators.required, integerValidator]),
+     clientNumber: new FormControl(null, [Validators.required, integerValidator]),
       account: new FormArray([
         new FormGroup({
           accountNumber: new FormControl(null,
@@ -59,7 +59,11 @@ export class AccountFormComponent implements OnInit {
           console.log(params['id']);
           this.accountId.set(params['id']);
           this.isEditMode.set(true);
+        } else if (params['clientNumber']) {
+          console.log(params['clientNumber']);
+          this.accountForm.get('clientNumber')?.setValue(params['clientNumber']);
         }
+        this.accountForm.get('clientNumber')?.disable();
       },
       error: (err) => {
 
@@ -72,7 +76,7 @@ export class AccountFormComponent implements OnInit {
     ).subscribe({
       next: data => {
         if (data['clientDetailed']?.[0]) {
-          console.log(data['clientDetailed'][0]);
+          console.log(data['clientDetailed'][0].accounts[0]);
           this.populateForm(data['clientDetailed'][0].accounts[0]);
         }
       },
@@ -86,25 +90,29 @@ export class AccountFormComponent implements OnInit {
   private populateForm(account: Account): void {
     Object.keys(this.accountForm.controls).forEach(key => {
       const control = this.accountForm.get(key);
-      const value = account[key as keyof Account]; // Fix: Explicitly cast key
+      const value = account[key as keyof Account]; // Explicitly cast key
 
-      if (key === 'account' && control instanceof FormArray) {
+      if (key === 'account' && Array.isArray(value) && control instanceof FormArray) {
         control.clear(); // Clear existing controls before adding new ones
 
-        control.push(new FormGroup({
-          accountNumber: new FormControl(account.accountNumber, {
-            validators: [Validators.required, integerValidator],
-            asyncValidators: [this.uniqueAccountNumberValidator.validate.bind(this.uniqueAccountNumberValidator)]
-          }),
-          accountType: new FormControl(account.accountType, Validators.required),
-          currency: new FormControl(account.currency, Validators.required),
-          accountStatus: new FormControl(account.accountStatus, Validators.required),
-        }));
+        // Iterate over each account item in the array
+        value.forEach((accountItem: any) => {
+          control.push(new FormGroup({
+            accountNumber: new FormControl(accountItem.accountNumber, {
+              validators: [Validators.required, integerValidator],
+              asyncValidators: [this.uniqueAccountNumberValidator.validate.bind(this.uniqueAccountNumberValidator)]
+            }),
+            accountType: new FormControl(accountItem.accountType, Validators.required),
+            currency: new FormControl(accountItem.currency, Validators.required),
+            accountStatus: new FormControl(accountItem.accountStatus, Validators.required),
+          }));
+        });
       } else if (control instanceof FormControl) {
         control.setValue(value);
       }
     });
   }
+
 
 
   addAccount(): void {
@@ -134,6 +142,7 @@ export class AccountFormComponent implements OnInit {
     this.accountForm.get(controlName)?.setValue(sanitizedValue);
   }
 
+
   addAccountNumber(): void {
     this.store.dispatch(AccountActions.addAccount({account: this.accountForm.value}));
   }
@@ -151,7 +160,7 @@ export class AccountFormComponent implements OnInit {
 
 
   onSubmit() {
-    console.log(this.accountForm.value);
+    //console.log(this.accountForm.value);
     if (this.isEditMode()) {
       this.editAccount();
       this.messageService.showSuccess('Success', 'Account updated successfully');

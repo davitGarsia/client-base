@@ -219,3 +219,9 @@
     background-color: darken($primary-color, 20%);
   }
 }
+
+
+.btn-container {
+  display: flex;
+  gap: 1rem;
+}

@@ -57,7 +57,7 @@ export const routes: Routes = [
       },
 
       {
-        path: `${CLIENT_ROUTES.ADD}/${CLIENT_ROUTES.ACCOUNT}`,
+        path: `${CLIENT_ROUTES.ADD}/${CLIENT_ROUTES.ACCOUNT}/:clientNumber`,
         canActivate: [alwaysAllowGuard],
         loadComponent: COMPONENTS.account
       },

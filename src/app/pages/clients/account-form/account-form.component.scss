@@ -19,7 +19,7 @@
 
 .btn-add {
   display: flex;
-  margin: 0 auto;
+  margin: 30px auto;
   width: 15rem;
   height: 6rem;
   font-size: 1.5rem;
@@ -46,3 +46,6 @@
   font-size: 24px;
 }
 
+.custom-select-wrapper, .input {
+  margin-bottom: 20px;
+}
