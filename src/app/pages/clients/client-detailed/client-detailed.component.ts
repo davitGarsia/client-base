@@ -5,7 +5,6 @@ import { TableModule } from "primeng/table";
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Account } from '../../../core/interfaces/account.interface';
 import * as AccountActions from '../../../state/accounts/account.actions';
 import * as ClientActions from '../../../state/clients/client.actions';
 import { Store } from '@ngrx/store';

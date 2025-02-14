@@ -90,12 +90,11 @@ export class AccountFormComponent implements OnInit {
   private populateForm(account: Account): void {
     Object.keys(this.accountForm.controls).forEach(key => {
       const control = this.accountForm.get(key);
-      const value = account[key as keyof Account]; // Explicitly cast key
+      const value = account[key as keyof Account];
 
       if (key === 'account' && Array.isArray(value) && control instanceof FormArray) {
-        control.clear(); // Clear existing controls before adding new ones
+        control.clear();
 
-        // Iterate over each account item in the array
         value.forEach((accountItem: any) => {
           control.push(new FormGroup({
             accountNumber: new FormControl(accountItem.accountNumber, {
@@ -166,7 +165,6 @@ export class AccountFormComponent implements OnInit {
 
 
   onSubmit() {
-    //console.log(this.accountForm.value);
     if (this.isEditMode()) {
       this.editAccount();
       this.messageService.showSuccess('Success', 'Account updated successfully');
